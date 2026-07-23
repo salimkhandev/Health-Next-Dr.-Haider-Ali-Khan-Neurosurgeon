@@ -1,0 +1,12 @@
+name: Keep Render Alive
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Health Check
+        run: curl -sf https://sunrise-english-language-and-skill.onrender.com/api/health

@@ -1,0 +1,47 @@
+{
+  "name": "ilmpath-app",
+  "version": "0.1.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^0.0.52",
+    "@ai-sdk/react": "^4.0.38",
+    "@aws-sdk/client-s3": "^3.1090.0",
+    "@aws-sdk/s3-request-presigner": "^3.1090.0",
+    "@sentry/nextjs": "^10.66.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
+    "ai": "^3.4.33",
+    "bcryptjs": "^3.0.3",
+    "browser-image-compression": "^2.0.2",
+    "googleapis": "^173.0.0",
+    "lucide-react": "^1.25.0",
+    "mongodb": "^7.5.0",
+    "mongoose": "^9.7.4",
+    "next": "16.2.10",
+    "next-auth": "^4.24.14",
+    "pdf-lib": "^1.17.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "resend": "^6.17.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^3.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "sharp": "^0.35.3",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
