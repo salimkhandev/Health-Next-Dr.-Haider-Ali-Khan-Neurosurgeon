@@ -1,22 +1,29 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const MONGODB_URI = 'mongodb://salimkhandev-mydb:EzoVyYElNz203QFT@ac-3rpsnfb-shard-00-00.7js7std.mongodb.net:27017,ac-3rpsnfb-shard-00-01.7js7std.mongodb.net:27017,ac-3rpsnfb-shard-00-02.7js7std.mongodb.net:27017/ilmpath_dev?authSource=admin&tls=true&appName=Cluster0';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 async function seed() {
+  if (!MONGODB_URI) {
+    console.error('MONGODB_URI environment variable is not defined');
+    process.exit(1);
+  }
   await mongoose.connect(MONGODB_URI);
   console.log('Connected to MongoDB');
 
-  const existing = await mongoose.connection.collection('users').findOne({ email: 'admin@gmail.com' });
+  const targetEmail = 'alamdar0000@gmail.com';
+  const targetPassword = 'alamdar0000';
+
+  const existing = await mongoose.connection.collection('users').findOne({ email: targetEmail });
   if (existing) {
-    console.log('Admin already exists — skipping.');
+    console.log(`Admin ${targetEmail} already exists — skipping.`);
     process.exit(0);
   }
 
-  const hash = await bcrypt.hash('Admin@1234', 10);
+  const hash = await bcrypt.hash(targetPassword, 10);
   await mongoose.connection.collection('users').insertOne({
-    name: 'Admin',
-    email: 'admin@gmail.com',
+    name: 'alamdar0000',
+    email: targetEmail,
     passwordHash: hash,
     role: 'admin',
     status: 'paid',
@@ -25,8 +32,8 @@ async function seed() {
   });
 
   console.log('Admin user created!');
-  console.log('  Email:    admin@gmail.com');
-  console.log('  Password: Admin@1234');
+  console.log(`  Email:    ${targetEmail}`);
+  console.log(`  Password: ${targetPassword}`);
   process.exit(0);
 }
 

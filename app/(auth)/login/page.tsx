@@ -7,8 +7,8 @@ import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('admin@gmail.com');
-  const [password, setPassword] = useState('Admin@1234');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -63,7 +63,6 @@ export default function LoginPage() {
             className="input"
             type="email"
             autoComplete="email"
-            placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -87,7 +86,6 @@ export default function LoginPage() {
             className="input"
             type="password"
             autoComplete="current-password"
-            placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

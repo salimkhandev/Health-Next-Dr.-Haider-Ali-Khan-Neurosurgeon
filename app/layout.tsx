@@ -8,9 +8,9 @@ import PWAInstallButton from '@/components/PWAInstallButton';
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist' });
 
 export const metadata: Metadata = {
-  title: 'Sunrise English Language & Skills Academy',
+  title: 'Alamdar Online English Academy',
   description:
-    'Learn English language and communication skills with Hafiz Mujeeb at Sunrise English Language & Skills Academy.',
+    'Learn English language and communication skills with Alamdar at Alamdar Online English Academy.',
   manifest: '/manifest',
 };
 
@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="Sunrise Academy" />
+        <meta name="apple-mobile-web-app-title" content="Alamdar Academy" />
       </head>
       <body className="min-h-full flex flex-col bg-slate-950 text-slate-100 antialiased">
         <AuthSessionProvider>{children}</AuthSessionProvider>

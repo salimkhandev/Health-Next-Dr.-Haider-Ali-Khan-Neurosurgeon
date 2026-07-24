@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   await connectDB();
   const course = await Course.findById(id, { title: 1, description: 1 }).lean();
   if (!course) return { title: 'Course Not Found' };
-  return { title: `${course.title} — Sunrise Academy`, description: course.description };
+  return { title: `${course.title} — Alamdar Academy`, description: course.description };
 }
 
 export default async function CourseDetailPage({ params }: Props) {

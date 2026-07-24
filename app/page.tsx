@@ -7,9 +7,9 @@ import { Lock, Download, GraduationCap, Smartphone, Mail, Phone, MapPin, Message
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sunrise English Language and Skills Academy',
+  title: 'Alamdar Online English Academy',
   description:
-    'Learn English language and communication skills with Hafiz Mujeeb. Stream or watch offline anytime.',
+    'Learn English language and communication skills with Alamdar. Stream or watch offline anytime.',
 };
 
 const FEATURES = [
@@ -50,7 +50,7 @@ export default function HomePage() {
 
         <div className="relative max-w-4xl mx-auto">
           <span className="inline-block bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-full px-4 py-1 text-xs font-semibold tracking-widest uppercase mb-7">
-            Sunrise English Academy
+            Alamdar Online English Academy
           </span>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-slate-100 mb-6">
@@ -59,7 +59,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-base sm:text-lg lg:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10">
-            Unlock professional opportunities and build global confidence. Learn online with experienced teacher <strong>Hafiz Mujeeb</strong>, stream lectures, or download and watch offline.
+            Unlock professional opportunities and build global confidence. Learn online with experienced teacher <strong>Alamdar</strong>, stream lectures, or download and watch offline.
           </p>
 
           <div className="flex gap-4 justify-center flex-wrap">
@@ -91,8 +91,8 @@ export default function HomePage() {
           <div className="md:col-span-4 flex justify-center">
             <div className="w-48 h-48 rounded-full border-4 border-amber-500/30 overflow-hidden bg-slate-900 flex items-center justify-center">
               <Image 
-                src="/profile.jpg" 
-                alt="Hafiz Mujeeb ur Rahman" 
+                src="/alamdarprofile.png" 
+                alt="Alamdar" 
                 width={192} 
                 height={192} 
                 className="w-full h-full object-cover"
@@ -101,9 +101,9 @@ export default function HomePage() {
           </div>
           <div className="md:col-span-8 text-center md:text-left">
             <span className="text-amber-400 text-sm font-semibold uppercase tracking-wider">Meet Your Instructor</span>
-            <h2 className="text-3xl font-extrabold text-slate-100 mt-2 mb-4">Hafiz Mujeeb ur Rahman</h2>
+            <h2 className="text-3xl font-extrabold text-slate-100 mt-2 mb-4">Alamdar</h2>
             <p className="text-slate-400 leading-relaxed mb-6">
-              Dedicated educator committed to delivering premium quality English language training and professional skill sets. Hafiz Mujeeb conducts structured online courses designed for students, job seekers, and working professionals in Pakistan and globally.
+              Dedicated educator committed to delivering premium quality English language training and professional skill sets. Alamdar conducts structured online courses designed for students, job seekers, and working professionals in Pakistan and globally.
             </p>
             <div className="flex gap-3 justify-center md:justify-start flex-wrap">
               <a
@@ -126,7 +126,7 @@ export default function HomePage() {
                 Facebook Page
               </a>
               <a
-                href="https://www.youtube.com/@HafizMujeeburRahman-y2d"
+                href="https://www.youtube.com/@AlamdarMujeeburRahman-y2d"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-semibold transition-colors no-underline"
@@ -188,7 +188,7 @@ export default function HomePage() {
                 <Mail className="w-5 h-5" /> Email Address
               </div>
               <p className="text-slate-300 text-sm">
-                <a href="mailto:sunriseacademy1122@gmail.com" className="hover:text-amber-400 transition-colors">sunriseacademy1122@gmail.com</a>
+                <a href="mailto:contact@alamdaracademy.com" className="hover:text-amber-400 transition-colors">contact@alamdaracademy.com</a>
               </p>
             </div>
 
@@ -222,7 +222,7 @@ export default function HomePage() {
             </a>
             <span className="text-slate-700">•</span>
             <a
-              href="https://www.youtube.com/@HafizMujeeburRahman-y2d"
+              href="https://www.youtube.com/@AlamdarMujeeburRahman-y2d"
               target="_blank"
               rel="noopener noreferrer"
               className="text-slate-400 hover:text-red-500 transition-colors text-sm font-medium"

@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           className="text-3xl font-bold tracking-tight"
           style={{ color: 'var(--brand-500)' }}
         >
-          Sunrise Academy
+          Alamdar Academy
         </span>
         <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
           Learn Without Limits
@@ -19,7 +19,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="w-full max-w-md">{children}</div>
 
       <p className="mt-8 text-xs text-center" style={{ color: 'var(--text-muted)' }}>
-        &copy; {new Date().getFullYear()} Sunrise Academy &mdash;{' '}
+        &copy; {new Date().getFullYear()} Alamdar Academy &mdash;{' '}
         <Link href="/terms" className="hover:underline">Terms</Link>
         {' · '}
         <Link href="/privacy" className="hover:underline">Privacy</Link>

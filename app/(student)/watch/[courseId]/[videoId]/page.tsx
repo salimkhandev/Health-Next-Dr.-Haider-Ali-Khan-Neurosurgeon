@@ -204,7 +204,7 @@ export default function WatchVideoPage() {
       <header style={{ height: '60px', borderBottom: '1px solid var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 1.5rem', background: 'var(--surface-1)' }}>
         <div className="flex items-center gap-3">
           <Link href="/dashboard" className="text-sm font-semibold text-brand-500" style={{ textDecoration: 'none' }}>
-            Sunrise Academy
+            Alamdar Academy
           </Link>
           <span className="text-muted text-xs">/</span>
           <span className="text-xs font-medium truncate max-w-sm" style={{ color: 'var(--text-secondary)' }}>

@@ -136,7 +136,7 @@ export default async function CertificatePage({ params }: Props) {
           
           <div style={{ textAlign: 'right' }}>
             <span style={{ display: 'block', fontSize: '0.8rem', color: '#64748b' }}>Authorized by</span>
-            <span style={{ fontSize: '1.1rem', fontFamily: 'serif', fontWeight: 600, color: 'var(--brand-500)' }}>Sunrise Academy Authority</span>
+            <span style={{ fontSize: '1.1rem', fontFamily: 'serif', fontWeight: 600, color: 'var(--brand-500)' }}>Alamdar Academy Authority</span>
           </div>
         </div>
       </div>

@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
   const driveFileName = `${timestamp}-${safeName}`;
 
   try {
-    const origin = req.headers.get('origin') || process.env.NEXTAUTH_URL || 'https://sunrise-english-language-and-skill.onrender.com';
+    const origin = req.headers.get('origin') || process.env.NEXTAUTH_URL || 'https://alamdar-online-english-academy.onrender.com';
     const { uploadUrl } = await createResumableUploadSession(
       driveFileName,
       contentType,

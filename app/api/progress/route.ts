@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 
   if (isCourseComplete) {
     // Send completion email (fire-and-forget stub)
-    const baseUrl = process.env.NEXTAUTH_URL ?? 'https://sunrise-english-language-and-skill.onrender.com';
+    const baseUrl = process.env.NEXTAUTH_URL ?? 'https://alamdar-online-english-academy.onrender.com';
     sendCertificateReady(
       token.email ?? '',
       course.title,

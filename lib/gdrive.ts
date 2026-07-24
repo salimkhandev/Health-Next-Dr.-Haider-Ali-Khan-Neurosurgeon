@@ -39,7 +39,7 @@ export async function createResumableUploadSession(
   filename: string,
   mimeType: string,
   folderId: string,
-  origin: string = process.env.NEXTAUTH_URL || 'https://sunrise-english-language-and-skill.onrender.com'
+  origin: string = process.env.NEXTAUTH_URL || 'https://alamdar-online-english-academy.onrender.com'
 ): Promise<{ uploadUrl: string; fileId?: string }> {
   const drive = getDriveClient();
   

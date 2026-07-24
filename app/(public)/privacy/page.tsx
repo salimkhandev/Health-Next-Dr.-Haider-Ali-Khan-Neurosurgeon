@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — Sunrise Academy',
-  description: 'How Sunrise Academy collects, uses, and protects your data.',
+  title: 'Privacy Policy — Alamdar Academy',
+  description: 'How Alamdar Academy collects, uses, and protects your data.',
 };
 
-const SUPPORT = process.env.SUPPORT_EMAIL ?? 'sunriseacademy1122@gmail.com';
+const SUPPORT = process.env.SUPPORT_EMAIL ?? 'contact@alamdaracademy.com';
 
 export default function PrivacyPage() {
   return (
@@ -57,7 +57,7 @@ export default function PrivacyPage() {
             3. Who Can See Your Data
           </h2>
           <p>
-            Only Sunrise Academy administrators can view your name, email, phone, and payment screenshots
+            Only Alamdar Academy administrators can view your name, email, phone, and payment screenshots
             for the purpose of verifying your payment. We do not sell or share your data with
             any third party.
           </p>

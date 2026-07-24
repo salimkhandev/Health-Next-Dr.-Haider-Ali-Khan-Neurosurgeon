@@ -7,8 +7,8 @@ import { authOptions } from '@/lib/auth';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Courses — Sunrise Academy',
-  description: 'Browse all courses available on Sunrise Academy.',
+  title: 'Courses — Alamdar Academy',
+  description: 'Browse all courses available on Alamdar Academy.',
 };
 
 export const dynamic = 'force-dynamic';

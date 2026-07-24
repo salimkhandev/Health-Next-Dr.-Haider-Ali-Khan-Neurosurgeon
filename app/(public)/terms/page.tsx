@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Terms & Conditions — Sunrise Academy',
-  description: 'Sunrise Academy terms and conditions of use.',
+  title: 'Terms & Conditions — Alamdar Academy',
+  description: 'Alamdar Academy terms and conditions of use.',
 };
 
 export default function TermsPage() {
@@ -27,7 +27,7 @@ export default function TermsPage() {
             1. What You Purchase
           </h2>
           <p>
-            Payment grants you personal, non-transferable access to Sunrise Academy course videos for a
+            Payment grants you personal, non-transferable access to Alamdar Academy course videos for a
             period of <strong style={{ color: 'var(--text-primary)' }}>one (1) year</strong> from
             the date your payment is approved. You are purchasing access to video content only — not
             a credential, certificate (unless earned by completion), or any other tangible product.
@@ -50,7 +50,7 @@ export default function TermsPage() {
             3. Access Revocation
           </h2>
           <p>
-            Sunrise Academy reserves the right to revoke access at any time if these terms are violated.
+            Alamdar Academy reserves the right to revoke access at any time if these terms are violated.
             Revocation does not entitle the user to a refund. See the Refund Policy for refund eligibility.
           </p>
         </section>
@@ -71,7 +71,7 @@ export default function TermsPage() {
             5. Changes to Content
           </h2>
           <p>
-            Sunrise Academy may add, modify, or remove course content at any time. We do not guarantee that
+            Alamdar Academy may add, modify, or remove course content at any time. We do not guarantee that
             specific videos will remain available for the full duration of your access period.
           </p>
         </section>
@@ -82,9 +82,9 @@ export default function TermsPage() {
           </h2>
           <p>
             For questions about these terms, contact us at{' '}
-            <a href={`mailto:${process.env.SUPPORT_EMAIL ?? 'sunriseacademy1122@gmail.com'}`}
+            <a href={`mailto:${process.env.SUPPORT_EMAIL ?? 'contact@alamdaracademy.com'}`}
               style={{ color: 'var(--brand-400)' }}>
-              {process.env.SUPPORT_EMAIL ?? 'sunriseacademy1122@gmail.com'}
+              {process.env.SUPPORT_EMAIL ?? 'contact@alamdaracademy.com'}
             </a>.
           </p>
         </section>

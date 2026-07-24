@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About — Sunrise English Language & Skills Academy',
-  description: 'Learn about Sunrise English Language & Skills Academy and how to contact us.',
+  title: 'About — Alamdar Online English Academy',
+  description: 'Learn about Alamdar Online English Academy and how to contact us.',
 };
 
-const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL ?? 'sunriseacademy1122@gmail.com';
+const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL ?? 'contact@alamdaracademy.com';
 
 export default function AboutPage() {
   return (
@@ -17,16 +17,16 @@ export default function AboutPage() {
         </Link>
       </div>
       <h1 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', fontWeight: 700, marginBottom: '1rem' }}>
-        About Sunrise English Academy
+        About Alamdar Online English Academy
       </h1>
 
       <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '1.5rem', fontSize: '1.05rem' }}>
-        Sunrise English Language and Skills Academy is an online educational platform
+        Alamdar Online English Academy is an online educational platform
         dedicated to making high-quality language and communication skills training accessible and affordable.
       </p>
 
       <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
-        All our courses are personally designed and taught by <strong>Hafiz Mujeeb</strong>. The platform is optimized
+        All our courses are personally designed and taught by <strong>Alamdar</strong>. The platform is optimized
         to work even on slow connections or offline, allowing you to cache videos and learn without interruption.
       </p>
 

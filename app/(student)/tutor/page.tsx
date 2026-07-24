@@ -65,7 +65,7 @@ export default function AITutorPage() {
           <span className="text-muted text-xs">/</span>
           <span className="text-xs font-medium truncate flex items-center gap-1 sm:gap-2" style={{ color: 'var(--text-secondary)' }}>
             <GraduationCap className="w-4 h-4 text-brand-500 shrink-0" />
-            <span className="hidden sm:inline">AI Tutor: Hafiz Mujeeb</span>
+            <span className="hidden sm:inline">AI Tutor: Alamdar</span>
             <span className="sm:hidden">AI Tutor</span>
           </span>
         </div>
@@ -134,9 +134,9 @@ export default function AITutorPage() {
             {messages.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center max-w-md mx-auto text-secondary gap-4 opacity-70">
                 <div className="w-16 h-16 rounded-full border border-brand-500/20 overflow-hidden mb-2 shadow-sm">
-                  <Image src="/profile.jpg" alt="Hafiz Mujeeb" width={64} height={64} className="w-full h-full object-cover" />
+                  <Image src="/alamdarprofile.png" alt="Alamdar" width={64} height={64} className="w-full h-full object-cover" />
                 </div>
-                <h3 className="text-lg font-semibold text-primary">I am Hafiz Mujeeb</h3>
+                <h3 className="text-lg font-semibold text-primary">I am Alamdar</h3>
                 <p className="text-sm">
                   Your AI English Tutor. Select a mode on the left and say hello to start practicing!
                 </p>
@@ -153,7 +153,7 @@ export default function AITutorPage() {
                            background: message.role === 'user' ? 'var(--brand-500)' : 'var(--surface-2)',
                            color: message.role === 'user' ? '#0f172a' : 'var(--text-primary)'
                          }}>
-                      {message.role === 'user' ? <User className="w-5 h-5" /> : <Image src="/profile.jpg" alt="Hafiz" width={40} height={40} className="w-full h-full object-cover" />}
+                      {message.role === 'user' ? <User className="w-5 h-5" /> : <Image src="/alamdarprofile.png" alt="Alamdar" width={40} height={40} className="w-full h-full object-cover" />}
                     </div>
                     
                     <div
@@ -182,7 +182,7 @@ export default function AITutorPage() {
                 {isLoading && messages[messages.length - 1]?.role === 'user' && (
                   <div className="flex gap-4">
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-surface-2 flex items-center justify-center text-primary overflow-hidden">
-                      <Image src="/profile.jpg" alt="Hafiz" width={40} height={40} className="w-full h-full object-cover" />
+                      <Image src="/alamdarprofile.png" alt="Alamdar" width={40} height={40} className="w-full h-full object-cover" />
                     </div>
                     <div className="px-4 py-3 rounded-2xl bg-surface-1 border border-surface-2 text-secondary text-sm flex items-center gap-1" style={{ borderTopLeftRadius: '4px' }}>
                       <span className="spinner" style={{ width: '14px', height: '14px', borderTopColor: 'var(--brand-500)' }}></span>
@@ -194,7 +194,7 @@ export default function AITutorPage() {
                 {error && (
                   <div className="flex gap-3 sm:gap-4">
                     <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-red-500/10 text-red-500 overflow-hidden">
-                      <Image src="/profile.jpg" alt="Hafiz" width={40} height={40} className="w-full h-full object-cover" style={{ opacity: 0.5 }} />
+                      <Image src="/alamdarprofile.png" alt="Alamdar" width={40} height={40} className="w-full h-full object-cover" style={{ opacity: 0.5 }} />
                     </div>
                     <div className="px-4 py-3 rounded-2xl max-w-[85%] sm:max-w-[80%] whitespace-pre-wrap text-sm sm:text-base shadow-sm border border-red-500/20 bg-red-500/5 text-red-400" style={{ borderTopLeftRadius: '4px' }}>
                       <span className="font-semibold block mb-1">Error processing response:</span>

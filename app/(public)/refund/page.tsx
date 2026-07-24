@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Refund Policy — Sunrise Academy',
-  description: 'Sunrise Academy refund policy — how to request a refund.',
+  title: 'Refund Policy — Alamdar Academy',
+  description: 'Alamdar Academy refund policy — how to request a refund.',
 };
 
-const SUPPORT = process.env.SUPPORT_EMAIL ?? 'sunriseacademy1122@gmail.com';
+const SUPPORT = process.env.SUPPORT_EMAIL ?? 'contact@alamdaracademy.com';
 
 export default function RefundPage() {
   return (

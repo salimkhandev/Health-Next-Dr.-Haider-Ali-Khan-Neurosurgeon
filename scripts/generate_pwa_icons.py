@@ -14,7 +14,7 @@ install_pillow()
 from PIL import Image
 
 def generate_icons():
-    source_path = r"d:\IlmPath\public\eng-fav.jpg"
+    source_path = r"d:\Downloads\alamdar-online-english-academy\public\alamdarprofile.png"
     if not os.path.exists(source_path):
         print(f"Error: Source image not found at {source_path}")
         return
@@ -24,17 +24,17 @@ def generate_icons():
     # List of targets: (destination_path, size_tuple, is_ico_format)
     targets = [
         # Public directory icons
-        (r"d:\IlmPath\public\favicon.ico", (32, 32), True),
-        (r"d:\IlmPath\public\logo.png", (512, 512), False),
-        (r"d:\IlmPath\public\icon-192x192.png", (192, 192), False),
-        (r"d:\IlmPath\public\icon-512x512.png", (512, 512), False),
-        (r"d:\IlmPath\public\icon-maskable-192x192.png", (192, 192), False),
-        (r"d:\IlmPath\public\icon-maskable-512x512.png", (512, 512), False),
+        (r"d:\Downloads\alamdar-online-english-academy\public\favicon.ico", (32, 32), True),
+        (r"d:\Downloads\alamdar-online-english-academy\public\logo.png", (512, 512), False),
+        (r"d:\Downloads\alamdar-online-english-academy\public\icon-192x192.png", (192, 192), False),
+        (r"d:\Downloads\alamdar-online-english-academy\public\icon-512x512.png", (512, 512), False),
+        (r"d:\Downloads\alamdar-online-english-academy\public\icon-maskable-192x192.png", (192, 192), False),
+        (r"d:\Downloads\alamdar-online-english-academy\public\icon-maskable-512x512.png", (512, 512), False),
         
         # App directory icons
-        (r"d:\IlmPath\app\favicon.ico", (32, 32), True),
-        (r"d:\IlmPath\app\icon.png", (512, 512), False),
-        (r"d:\IlmPath\app\apple-icon.png", (180, 180), False),
+        (r"d:\Downloads\alamdar-online-english-academy\app\favicon.ico", (32, 32), True),
+        (r"d:\Downloads\alamdar-online-english-academy\app\icon.png", (512, 512), False),
+        (r"d:\Downloads\alamdar-online-english-academy\app\apple-icon.png", (180, 180), False),
     ]
 
     for dest, size, is_ico in targets:

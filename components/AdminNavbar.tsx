@@ -27,7 +27,7 @@ export default function AdminNavbar() {
       {/* Top row: brand + hamburger */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/admin" style={{ color: 'var(--brand-500)', fontWeight: 700, fontSize: '1.1rem', textDecoration: 'none' }}>
-          Sunrise Academy{' '}
+          Alamdar Academy{' '}
           <span style={{ color: 'var(--text-secondary)', fontSize: '0.8em', fontWeight: 500 }}>Admin</span>
         </Link>
 

@@ -16,7 +16,7 @@ const OFFLINE_PAGES = [
     href: '/about',
     icon: <BookOpen className="w-6 h-6 text-slate-400" />,
     label: 'About Us',
-    desc: 'Learn more about Sunrise Academy.',
+    desc: 'Learn more about Alamdar Academy.',
     highlight: false,
   },
   {

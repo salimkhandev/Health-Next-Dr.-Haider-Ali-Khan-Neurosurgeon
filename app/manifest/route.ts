@@ -1,8 +1,8 @@
 export async function GET() {
   const manifest = {
-    name: "Sunrise English Language and Skills Academy",
-    short_name: "Sunrise Academy",
-    description: "Learn English language and communication skills with Hafiz Mujeeb",
+    name: "Alamdar Online English Academy",
+    short_name: "Alamdar Academy",
+    description: "Learn English language and communication skills with Alamdar",
     start_url: "/",
     display: "standalone",
     background_color: "#0a0a0a",

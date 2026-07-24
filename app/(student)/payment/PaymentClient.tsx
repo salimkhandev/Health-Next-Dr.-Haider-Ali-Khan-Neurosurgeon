@@ -188,13 +188,13 @@ export default function PaymentClient() {
 
         <div className="text-sm text-secondary p-3 rounded bg-surface-2">
           {method === 'easypaisa' && (
-            <><strong>EasyPaisa:</strong> 0342-5015034<br/>Title: Hafiz Mujeeb ur Rahman</>
+            <><strong>EasyPaisa:</strong> 0342-5015034<br/>Title: Alamdar</>
           )}
           {method === 'jazzcash' && (
-            <><strong>JazzCash:</strong> 0318-5263800<br/>Title: Hafiz Mujeeb ur Rahman</>
+            <><strong>JazzCash:</strong> 0318-5263800<br/>Title: Alamdar</>
           )}
           {method === 'bank' && (
-            <><strong>Meezan Bank</strong><br/>Acc: 03425015034<br/>Title: Sunrise Academy / Hafiz Mujeeb</>
+            <><strong>Meezan Bank</strong><br/>Acc: 03425015034<br/>Title: Alamdar Academy / Alamdar</>
           )}
         </div>
       </div>
