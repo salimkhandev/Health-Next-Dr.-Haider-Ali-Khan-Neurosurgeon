@@ -71,7 +71,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="/tutor"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-brand-500 text-slate-950 font-bold text-base rounded-xl no-underline hover:bg-brand-600 transition-colors shadow-lg hover:shadow-xl"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-violet-600 hover:bg-violet-500 text-white font-bold text-base rounded-xl no-underline transition-colors shadow-lg shadow-violet-900/40"
             >
               🤖 Practice with AI Tutor
             </Link>
@@ -89,13 +89,13 @@ export default function HomePage() {
       <section className="px-6 py-20 sm:px-8 lg:px-12 border-t border-slate-900 bg-slate-950/40">
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-4 flex justify-center">
-            <div className="w-48 h-48 rounded-full border-4 border-amber-500/30 overflow-hidden bg-slate-900 flex items-center justify-center">
+            <div className="w-56 h-56 border-4 border-amber-500/30 bg-slate-900 flex items-center justify-center">
               <Image 
                 src="/alamdarprofile.png" 
                 alt="Alamdar" 
-                width={192} 
-                height={192} 
-                className="w-full h-full object-cover"
+                width={244} 
+                height={244} 
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
