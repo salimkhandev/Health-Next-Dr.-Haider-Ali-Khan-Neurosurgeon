@@ -1,60 +1,68 @@
-# Health Next — Executive Presentation for Dr. Haider Ali Khan
+# Health Next — Presentation & Video Guide for Dr. Haider Ali Khan
 
-> **Custom Neurosurgery Practice Management & AI Clinical Decision-Support System**  
-> *Developed for Dr. Haider Ali Khan (MBBS, FCPS Neurosurgery, Fellowship Endoscopic Neurosurgery, CHPE, Arab Spine Diploma) · Health Next*
-
----
-
-## 🚀 30-Second Executive Summary
-
-**Health Next** is a state-of-the-art, web and mobile clinical management platform engineered exclusively for Dr. Haider Ali Khan's neurosurgery practice. 
-
-It replaces manual paperwork with a streamlined digital workflow: from **fast 10-second patient registration** and **AI-powered diagnostic support** to **1-click printable prescription slips** and **real-time ward bed tracking**.
+> **Custom Neurosurgery Practice & Clinical Management System**  
+> *Built for Dr. Haider Ali Khan (MBBS, FCPS Neurosurgery, Fellowship Endoscopic Neurosurgery, CHPE, Arab Spine Diploma) · Health Next Clinic*
 
 ---
 
-## ⭐ Main Features for the Doctor
+## 🎬 1. Quick Video Overview (15-Second Intro Script)
 
-### 1. 🏥 Smart Patient Directory & Atomic MRN Generation
-- **Unique MRN System**: Automatically generates formatted Medical Record Numbers (`NC-2026-XXXX`) sequentially.
-- **Lightning Search**: Instant search by MRN, patient name, or contact number.
-- **Simplified Registration**: 10-second registration collecting essential details (Name, Age, Gender, Contact) while keeping secondary fields optional.
-
-### 2. 🧠 AI Clinical Decision-Support Assistant
-- **Differential Diagnoses**: Enter presenting symptoms to receive AI-suggested differential diagnoses tailored to neurosurgery & neurology.
-- **Allergy Conflict Alerts**: Automatically scans patient history and flags any potential drug-allergy conflicts in red before prescribing.
-- **Smart Recommendations**: 1-click addition of suggested laboratory/imaging tests (e.g. MRI Brain, CT Spine) and medications into the prescription.
-- **Interactive AI Chat**: Ask follow-up clinical questions directly within the consultation panel.
-- **Safety Guarantee**: Clear clinical disclaimers reinforcing physician control and decision authority.
-
-### 3. 📄 Official 1-Click Printable Prescription Slips
-- **Custom Branded Letterhead**: Generates crisp A4 prescription slips featuring Dr. Haider Ali Khan's official credentials and Health Next logo.
-- **Structured Rx Layout**: Clearly formatted sections for Vitals, Diagnoses, Prescribed Medicines (Dosage, Frequency, Duration), Lab Tests, Doctor Notes, and Next Follow-up Date.
-- **Instant Print & PDF Export**: Clean, print-optimized view with signature line ready for physical printing or PDF export.
-
-### 4. 🛏️ Real-Time Ward & Bed Management
-- **Visual Ward Occupancy**: Live bed matrix across ICU, Neurosurgery Ward, and General Ward.
-- **Bed Status Indicators**: Color-coded badges for Available (Green), Occupied (Red), and Under Maintenance (Yellow).
-- **1-Click Admit & Discharge**: Easily allocate beds to admitted patients, record admitting diagnoses, and log discharge summaries.
-
-### 5. 📊 Clinical Analytics & Follow-Up Alert System
-- **Real-Time KPI Dashboard**: Track Total Patients, Today's Consultations, Active Ward Admissions, and Overall Bed Occupancy.
-- **Top Diagnoses Visualizer**: Chart.js graphs displaying top clinical diagnoses and ward utilization trends.
-- **Automated Follow-Up Tracker**: Dedicated widget highlighting patients due for follow-up within the next 7 days for proactive care.
-
-### 6. 📱 100% Mobile & Tablet Responsive
-- **Designed for On-The-Go Use**: Full functionality available on smartphones and tablets with a slide-out hamburger navigation drawer.
-- **Touch-Friendly Controls**: Large tap targets, clean responsive forms, and optimized input fields to prevent text clipping.
+> *"Dr. Haider, this is **Health Next**—a custom-built digital clinical assistant designed specifically for your neurosurgery practice. In simple terms, it handles your entire daily patient workflow: registering new patients in 10 seconds, assisting your examination with AI diagnostic reasoning and automated allergy safety checks, printing official branded prescription slips with 1 click, and tracking your ICU and Ward beds live on both laptop and mobile."*
 
 ---
 
-## 🔑 Demo Access Credentials
+## 🔄 2. Step-by-Step Clinical Workflow (In Natural Sequence)
 
-- **Live Deployed URL**: [https://dr-haider-ali-khan-neurosurgeon.vercel.app](https://dr-haider-ali-khan-neurosurgeon.vercel.app)
-- **Doctor Credentials**:
+### 📍 Step 1: Patient Arrival & Quick Registration
+- **Instant Search**: Search existing patients instantly by name, phone number, or Medical Record Number (MRN).
+- **10-Second Registration**: Register new patients with just essential details (Full Name, Age, Gender, Contact). Non-essential fields (Address, Blood Group, Allergies) are clearly marked optional to keep registration lightning fast.
+- **Auto-Generated MRN**: Each patient receives a unique, clean Medical Record Number (`NC-2026-XXXX`).
+
+---
+
+### 📍 Step 2: Consultation & AI Decision-Support (The Examination)
+- **Vitals & Symptoms Input**: Record patient BP, Pulse, Temperature, Weight, and presenting symptoms.
+- **AI Differential Diagnoses**: Click **"Get AI Suggestions"** to receive differential diagnoses tailored to neurosurgery and neurology (e.g. Lumbar Disc Herniation, Hydrocephalus, Brain Tumor).
+- **Automated Allergy Guard**: If a suggested medication conflicts with the patient's known allergies, the system displays a prominent **red allergy warning** before prescribing.
+- **1-Click Selection**: Add suggested lab/imaging tests (MRI Brain, CT Spine) and medicines into the visit with a single click.
+- **Doctor Authority**: Clear disclaimers reinforce that all AI recommendations are purely decision-support tools under your authorization.
+
+---
+
+### 📍 Step 3: 1-Click Official Prescription (The Printout)
+- **Branded Letterhead**: Generates a crisp A4 prescription slip featuring your full name, qualifications (MBBS, FCPS, Fellowship, CHPE, Arab Spine Diploma), and the Health Next logo.
+- **Structured Rx Table**: Clean layout displaying Diagnosis, Prescribed Medicines (Dosage, Frequency, Duration), Lab Tests, Doctor Notes, and Next Follow-up Date.
+- **Instant Print / PDF**: Ready for 1-click physical printing or saving as a digital PDF for the patient.
+
+---
+
+### 📍 Step 4: Live Ward & ICU Bed Management (Admissions)
+- **Visual Bed Matrix**: View live bed availability across ICU, Neurosurgery Ward, and General Ward.
+- **Color-Coded Status**: Green for Available, Red for Occupied, Yellow for Maintenance.
+- **1-Click Admit & Discharge**: Easily allocate a bed to an admitted patient, assign admitting diagnosis, and log discharge summaries.
+
+---
+
+### 📍 Step 5: Follow-Up Tracker & Practice Analytics (The Dashboard)
+- **7-Day Follow-Up Alert System**: Automatically alerts you about patients due for follow-up in the next 7 days so no patient is overlooked.
+- **Live Practice Metrics**: View total registered patients, today's consultations, active ward admissions, and bed occupancy percentage at a glance.
+- **Top Diagnoses Graphs**: Interactive visual charts showing common conditions seen in your practice.
+
+---
+
+## 📱 3. Mobile & On-The-Go Experience
+- **100% Smartphone Friendly**: Full functionality accessible on your phone or tablet via a slide-in navigation drawer.
+- **Touch-Optimized**: Designed with large buttons and clean layouts so you can review patients or check ward beds from anywhere.
+
+---
+
+## 🔑 4. Live Demo Access & Credentials
+
+- **Live System URL**: [https://dr-haider-ali-khan-neurosurgeon.vercel.app](https://dr-haider-ali-khan-neurosurgeon.vercel.app)
+- **Doctor Login**:
   - **Email**: `doctor@healthnext.com`
   - **Password**: `clinic@2026`
-- **Admin Credentials**:
+- **Admin Login**:
   - **Email**: `alamdar0000@gmail.com`
   - **Password**: `alamdar0000`
 
