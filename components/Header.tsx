@@ -29,7 +29,7 @@ function getTitle(pathname: string, short = false) {
   if (pathname.startsWith('/patients/')) return short ? 'Profile' : 'Patient Profile';
   if (pathname.startsWith('/prescription/')) return short ? 'Rx Slip' : 'Prescription Slip';
   if (pathname.startsWith('/wards')) return short ? 'Wards' : 'Ward Management';
-  return 'NitroClinic';
+  return 'Health Next';
 }
 
 interface HeaderProps {

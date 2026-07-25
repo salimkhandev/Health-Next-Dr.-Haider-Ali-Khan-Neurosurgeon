@@ -16,7 +16,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
   const { mrn } = await params;
-  return { title: `Full History Export ${mrn} — NitroClinic` };
+  return { title: `Full History Export ${mrn} — Health Next` };
 }
 
 export default async function FullHistoryExportPage({ params }: PageProps) {

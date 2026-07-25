@@ -1,6 +1,6 @@
-# NitroClinic — Health Next (Dr. Haider Ali Khan, Neurosurgeon)
+# Health Next — Clinical Suite (Dr. Haider Ali Khan, Neurosurgeon)
 
-NitroClinic is a clinical patient management, AI consultation assistant, and ward occupancy system designed specifically for **Dr. Haider Ali Khan**, Neurosurgeon at **Health Next**.
+Health Next is a clinical patient management, AI consultation assistant, and ward occupancy system designed specifically for **Dr. Haider Ali Khan**, Neurosurgeon at **Health Next**.
 
 ### 🚀 Live Deployment
 - **URL:** [https://dr-haider-ali-khan-neurosurgeon.vercel.app](https://dr-haider-ali-khan-neurosurgeon.vercel.app)

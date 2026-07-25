@@ -28,7 +28,7 @@ interface AiSuggestion {
 interface ChatMsg { role: 'user' | 'assistant'; message: string; timestamp: string }
 interface GeminiMsg { role: 'user' | 'model'; parts: { text: string }[] }
 
-const DISCLAIMER = '⚕ AI suggestions are decision-support only and do not replace clinical judgment. All diagnoses and prescriptions must be confirmed by the doctor.';
+const DISCLAIMER = '⚕ AI suggestions are decision-support tools only to assist clinical decision-making. Do not follow blindly — all diagnoses, lab orders, and prescriptions must be evaluated and confirmed by the physician.';
 
 function ConsultationContent() {
   const searchParams = useSearchParams();
@@ -553,6 +553,14 @@ function ConsultationContent() {
                     🩺 {aiSuggestions.clinicalNote}
                   </p>
                 )}
+
+                {/* AI Decision Support Disclaimer */}
+                <div className="flex items-start gap-2 pt-3 border-t border-purple-200/70 text-[11px] text-purple-800 bg-purple-100/60 p-2.5 rounded-lg font-medium">
+                  <FiAlertTriangle className="text-purple-600 mt-0.5 shrink-0 text-sm" />
+                  <p className="leading-tight">
+                    <strong>Clinical Disclaimer:</strong> AI outputs are designed strictly to aid clinical decision-making and should not be followed blindly. The treating doctor maintains full clinical responsibility for all final diagnoses, prescriptions, and treatment plans.
+                  </p>
+                </div>
               </div>
             )}
 
@@ -609,6 +617,10 @@ function ConsultationContent() {
                   <button onClick={sendFollowUp} disabled={followUpLoading || !followUp.trim()} className="btn-primary py-1.5 px-3 text-xs">
                     {followUpLoading ? <FiLoader className="animate-spin" /> : <FiSend />}
                   </button>
+                </div>
+                <div className="bg-slate-100/80 px-3 py-1.5 border-t border-slate-200 flex items-center gap-1.5 text-[10px] text-slate-500 font-medium">
+                  <FiAlertTriangle className="text-amber-500 shrink-0" />
+                  <span>AI chat is for decision support only — verify all clinical recommendations independently.</span>
                 </div>
               </div>
             )}
@@ -672,7 +684,7 @@ function ConsultationContent() {
             </div>
 
             <div className="field-group">
-              <label className="label">Doctor&apos;s Notes</label>
+              <label className="label">Doctor&apos;s Notes (Optional)</label>
               <textarea
                 className="input min-h-[70px] resize-y"
                 placeholder="Optional clinical notes, observations, instructions to patient..."
@@ -682,7 +694,7 @@ function ConsultationContent() {
             </div>
 
             <div className="field-group">
-              <label className="label">Next Follow-up Date</label>
+              <label className="label">Next Follow-up Date (Optional)</label>
               <input
                 className="input"
                 type="date"

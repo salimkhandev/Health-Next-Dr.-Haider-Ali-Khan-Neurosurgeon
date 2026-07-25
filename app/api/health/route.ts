@@ -4,7 +4,7 @@ import { connectDB } from '@/lib/db';
 export async function GET() {
   try {
     await connectDB();
-    return NextResponse.json({ status: 'ok', system: 'NitroClinic', db: 'connected' });
+    return NextResponse.json({ status: 'ok', system: 'Health Next', db: 'connected' });
   } catch {
     return NextResponse.json({ status: 'error', db: 'disconnected' }, { status: 500 });
   }

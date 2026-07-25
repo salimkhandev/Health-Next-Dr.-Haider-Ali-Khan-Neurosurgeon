@@ -631,7 +631,7 @@ export default function WardManagementPage() {
 
                 {/* Attending Doctor */}
                 <div className="field-group">
-                  <label className="label">Attending Doctor</label>
+                  <label className="label">Attending Doctor (Optional)</label>
                   <input
                     className="input text-xs"
                     value={admitDoctor}

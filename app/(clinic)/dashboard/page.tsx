@@ -68,7 +68,7 @@ export default function DashboardPage() {
     return (
       <div className="flex flex-col items-center justify-center h-96 text-slate-400 space-y-3">
         <FiLoader className="animate-spin text-3xl text-blue-500" />
-        <p className="text-sm font-semibold">Loading NitroClinic Dashboard...</p>
+        <p className="text-sm font-semibold">Loading Health Next Dashboard...</p>
       </div>
     );
   }

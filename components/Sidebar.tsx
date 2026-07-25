@@ -136,7 +136,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
         {/* Footer Info */}
         <div className="p-4 border-t border-slate-100 bg-slate-50/50">
           <p className="text-[11px] text-slate-500 text-center font-medium">
-            NitroClinic v1.0 &copy; 2026
+            Health Next v1.0 &copy; 2026
           </p>
           <p className="text-[10px] text-slate-400 text-center mt-0.5">
             Neurosurgery Practice Suite

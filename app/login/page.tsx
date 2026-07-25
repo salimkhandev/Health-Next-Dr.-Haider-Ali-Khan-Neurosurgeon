@@ -43,9 +43,9 @@ export default function LoginPage() {
                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.3'%3E%3Cpath d='M0 20h40M20 0v40' stroke='%23fff' stroke-width='0.5'/%3E%3C/g%3E%3C/svg%3E")`,
               }}
             />
-            <p className="text-blue-200 text-xs font-bold tracking-[0.25em] uppercase mb-1 relative">Health Next</p>
-            <h1 className="text-2xl font-extrabold tracking-tight relative">NitroClinic</h1>
-            <p className="text-blue-200 text-xs mt-1 relative">Neurosurgery Practice Management</p>
+            <p className="text-blue-200 text-xs font-bold tracking-[0.25em] uppercase mb-1 relative">Neurosurgery Practice</p>
+            <h1 className="text-2xl font-extrabold tracking-tight relative">Health Next</h1>
+            <p className="text-blue-200 text-xs mt-1 relative">Dr. Haider Ali Khan · Neurosurgeon</p>
           </div>
 
           {/* Doctor info */}
@@ -123,7 +123,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-[11px] text-slate-400 mt-4">
-          NitroClinic v1.0 &copy; 2026 · Private Clinical System
+          Health Next v1.0 &copy; 2026 · Private Clinical System
         </p>
       </div>
     </div>

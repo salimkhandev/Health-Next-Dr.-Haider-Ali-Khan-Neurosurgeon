@@ -125,11 +125,6 @@ export default function RegisterPatientModal({ onClose, onCreated }: Props) {
                 value={form.age} onChange={(e) => set('age', e.target.value)} required />
             </div>
             <div className="field-group">
-              <label className="label">Date of Birth</label>
-              <input className="input" type="date" value={form.dob}
-                onChange={(e) => set('dob', e.target.value)} />
-            </div>
-            <div className="field-group">
               <label className="label">Gender *</label>
               <select className="input" value={form.gender} onChange={(e) => set('gender', e.target.value)} required>
                 <option>Male</option>
@@ -137,8 +132,13 @@ export default function RegisterPatientModal({ onClose, onCreated }: Props) {
                 <option>Other</option>
               </select>
             </div>
+            <div className="sm:col-span-2 field-group">
+              <label className="label">Contact Number *</label>
+              <input className="input" placeholder="e.g. +92 300 1234567" value={form.contact}
+                onChange={(e) => set('contact', e.target.value)} required />
+            </div>
             <div className="field-group">
-              <label className="label">Blood Group</label>
+              <label className="label">Blood Group (Optional)</label>
               <select className="input" value={form.bloodGroup} onChange={(e) => set('bloodGroup', e.target.value)}>
                 <option value="">— Select —</option>
                 {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((g) => (
@@ -146,23 +146,18 @@ export default function RegisterPatientModal({ onClose, onCreated }: Props) {
                 ))}
               </select>
             </div>
-            <div className="sm:col-span-2 field-group">
-              <label className="label">Contact Number *</label>
-              <input className="input" placeholder="e.g. +92 300 1234567" value={form.contact}
-                onChange={(e) => set('contact', e.target.value)} required />
-            </div>
-            <div className="sm:col-span-2 field-group">
-              <label className="label">Address</label>
+            <div className="field-group">
+              <label className="label">Address (Optional)</label>
               <input className="input" placeholder="Street, City" value={form.address}
                 onChange={(e) => set('address', e.target.value)} />
             </div>
             <div className="sm:col-span-2 field-group">
-              <label className="label">Known Allergies</label>
+              <label className="label">Known Allergies (Optional)</label>
               <input className="input" placeholder="Penicillin, Aspirin (comma-separated)" value={form.allergies}
                 onChange={(e) => set('allergies', e.target.value)} />
             </div>
             <div className="sm:col-span-2 field-group">
-              <label className="label">Chronic Conditions</label>
+              <label className="label">Chronic Conditions (Optional)</label>
               <input className="input" placeholder="Hypertension, Diabetes (comma-separated)" value={form.chronicConditions}
                 onChange={(e) => set('chronicConditions', e.target.value)} />
             </div>

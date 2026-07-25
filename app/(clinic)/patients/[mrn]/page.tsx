@@ -48,7 +48,7 @@ interface LeanPatient {
 
 export async function generateMetadata({ params }: PageProps) {
   const { mrn } = await params;
-  return { title: `Patient ${mrn} — NitroClinic` };
+  return { title: `Patient ${mrn} — Health Next` };
 }
 
 /* ---- Visit card ---- */

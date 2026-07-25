@@ -15,7 +15,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
   const { visitId } = await params;
-  return { title: `Prescription Slip ${visitId} — NitroClinic` };
+  return { title: `Prescription Slip ${visitId} — Health Next` };
 }
 
 export default async function PrescriptionPage({ params }: PageProps) {
@@ -236,7 +236,7 @@ export default async function PrescriptionPage({ params }: PageProps) {
         {/* Prescription Footer: Doctor Signature Area */}
         <div className="pt-8 border-t border-slate-200 flex items-end justify-between">
           <div className="text-[10px] text-slate-400 space-y-0.5">
-            <p className="font-semibold text-slate-600">NitroClinic Digital Prescription</p>
+            <p className="font-semibold text-slate-600">Health Next Digital Prescription</p>
             <p>Generated on {new Date().toLocaleDateString('en-GB')}</p>
           </div>
           <div className="text-center w-48">

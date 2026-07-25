@@ -1,4 +1,4 @@
-# NitroClinic — Executive Presentation for Dr. Haider Ali Khan
+# Health Next — Executive Presentation for Dr. Haider Ali Khan
 
 > **Custom Neurosurgery Practice Management & AI Clinical Decision-Support System**  
 > *Developed for Dr. Haider Ali Khan (MBBS, FCPS Neurosurgery, Fellowship Endoscopic Neurosurgery, CHPE, Arab Spine Diploma) · Health Next*
@@ -7,7 +7,7 @@
 
 ## 🚀 30-Second Executive Summary
 
-**NitroClinic** is a state-of-the-art, web and mobile clinical management platform engineered exclusively for Dr. Haider Ali Khan's neurosurgery practice. 
+**Health Next** is a state-of-the-art, web and mobile clinical management platform engineered exclusively for Dr. Haider Ali Khan's neurosurgery practice. 
 
 It replaces manual paperwork with a streamlined digital workflow: from **fast 10-second patient registration** and **AI-powered diagnostic support** to **1-click printable prescription slips** and **real-time ward bed tracking**.
 
