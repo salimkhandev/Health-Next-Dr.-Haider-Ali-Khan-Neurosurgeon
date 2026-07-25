@@ -17,14 +17,22 @@
 - **Instant Search**: Search existing patients instantly by name, phone number, or Medical Record Number (MRN).
 - **10-Second Registration**: Register new patients with just essential details (Full Name, Age, Gender, Contact). Non-essential fields (Address, Blood Group, Allergies) are clearly marked optional to keep registration lightning fast.
 - **Auto-Generated MRN**: Each patient receives a unique, clean Medical Record Number (`NC-2026-XXXX`).
+- **📝 Sample Patient Demo Data (Fill during your video):**
+  - **Full Name**: `Zahid Mahmood`
+  - **Age**: `52`
+  - **Gender**: `Male`
+  - **Contact**: `+92 300 9876543` *(Optional)*
+  - **Known Allergies**: `Penicillin` *(Important: Enter this to demonstrate the live AI Allergy Guard safety alert in Step 2!)*
+  - **Chronic Conditions**: `Hypertension` *(Optional)*
 
 ---
 
 ### 📍 Step 2: Consultation & AI Decision-Support (The Examination)
-- **Vitals & Symptoms Input**: Record patient BP, Pulse, Temperature, Weight, and presenting symptoms.
-- **AI Differential Diagnoses**: Click **"Get AI Suggestions"** to receive differential diagnoses tailored to neurosurgery and neurology (e.g. Lumbar Disc Herniation, Hydrocephalus, Brain Tumor).
-- **Automated Allergy Guard**: If a suggested medication conflicts with the patient's known allergies, the system displays a prominent **red allergy warning** before prescribing.
-- **1-Click Selection**: Add suggested lab/imaging tests (MRI Brain, CT Spine) and medicines into the visit with a single click.
+- **📝 Sample Symptoms to Type (Fill during your video):**
+  - `Severe lower back pain shooting down left leg, numbness in foot`
+- **AI Differential Diagnoses**: Click **"Get AI Suggestions"** to receive differential diagnoses tailored to neurosurgery and neurology (e.g. **Lumbar Disc Herniation**).
+- **Automated Allergy Guard**: Add a suggested medication that contains penicillin (e.g. `Amoxicillin` or `Penicillin V`). The system will immediately pop up a **red allergy warning** indicating the conflict with Zahid's allergies!
+- **1-Click Selection**: Add suggested lab/imaging tests (MRI Lumbar Spine) and medicines into the visit with a single click.
 - **Doctor Authority**: Clear disclaimers reinforce that all AI recommendations are purely decision-support tools under your authorization.
 
 ---
