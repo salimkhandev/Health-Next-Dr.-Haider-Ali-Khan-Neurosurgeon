@@ -3,7 +3,7 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
-import { FiLogOut, FiBell, FiMenu } from 'react-icons/fi';
+import { FiLogOut, FiMenu } from 'react-icons/fi';
 
 const pageTitles: Record<string, string> = {
   '/': 'Dashboard',
@@ -69,13 +69,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
       {/* Right: actions */}
       <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
-        <button
-          className="p-1.5 sm:p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors"
-          aria-label="Notifications"
-        >
-          <FiBell className="text-base sm:text-lg" />
-        </button>
-        <div className="flex items-center gap-1.5 sm:gap-2 pl-1.5 sm:pl-3 border-l border-slate-200">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Name only on sm+ */}
           <div className="text-right hidden sm:block">
             <p className="text-xs font-semibold text-slate-800 truncate max-w-[120px]">
