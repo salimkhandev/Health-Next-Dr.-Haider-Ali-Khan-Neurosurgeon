@@ -499,17 +499,28 @@ function ConsultationContent() {
                   <div>
                     <p className="text-xs font-bold uppercase text-purple-600 tracking-wider mb-2">Suggested Tests</p>
                     <div className="flex flex-wrap gap-2">
-                      {aiSuggestions.suggestedTests.map((t, i) => (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => { if (!tests.includes(t)) setTests((prev) => [...prev, t]); }}
-                          className="tag-green hover:bg-emerald-100 cursor-pointer transition-colors"
-                          title="Add to prescribed tests"
-                        >
-                          <FiPlus className="text-xs" /> {t}
-                        </button>
-                      ))}
+                      {aiSuggestions.suggestedTests.map((t, i) => {
+                        const isAdded = tests.includes(t);
+                        return (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => {
+                              if (isAdded) {
+                                removeTest(t);
+                              } else {
+                                setTests((prev) => [...prev, t]);
+                              }
+                            }}
+                            className={`tag-green hover:bg-emerald-100 cursor-pointer transition-all ${
+                              isAdded ? 'bg-emerald-600 text-white border-emerald-700 hover:bg-emerald-700' : ''
+                            }`}
+                            title={isAdded ? 'Remove from prescribed tests' : 'Add to prescribed tests'}
+                          >
+                            {isAdded ? '✓' : <FiPlus className="text-xs" />} {t}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -523,24 +534,28 @@ function ConsultationContent() {
                         const hasConflict = allergyConflicts.some((c) =>
                           m.name.toLowerCase().includes(c.toLowerCase()) || c.toLowerCase().includes(m.name.toLowerCase())
                         );
+                        const isAdded = medicines.some((x) => x.name === m.name);
                         return (
                           <button
                             key={i}
                             type="button"
                             onClick={() => {
-                              if (!medicines.some((x) => x.name === m.name)) {
+                              if (isAdded) {
+                                setMedicines((prev) => prev.filter((x) => x.name !== m.name));
+                              } else {
                                 setMedicines((prev) => [...prev, { name: m.name, dosage: m.dosage, frequency: '', duration: '' }]);
                               }
                             }}
-                            className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full border transition-colors cursor-pointer ${
-                              hasConflict
+                            className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full border transition-all cursor-pointer ${
+                              isAdded
+                                ? 'bg-emerald-600 text-white border-emerald-700 hover:bg-emerald-700'
+                                : hasConflict
                                 ? 'bg-red-50 text-red-700 border-red-300 hover:bg-red-100'
                                 : 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100'
                             }`}
-                            title={hasConflict ? '⚠ Allergy conflict — review carefully' : 'Add to prescribed medicines'}
+                            title={isAdded ? 'Remove from prescribed medicines' : hasConflict ? '⚠ Allergy conflict — review carefully' : 'Add to prescribed medicines'}
                           >
-                            {hasConflict && '⚠ '}
-                            <FiPlus className="text-xs" /> {m.name} {m.dosage && `(${m.dosage})`}
+                            {isAdded ? '✓ ' : hasConflict ? '⚠ ' : <FiPlus className="text-xs" />} {m.name} {m.dosage && `(${m.dosage})`}
                           </button>
                         );
                       })}
@@ -630,24 +645,39 @@ function ConsultationContent() {
           <div className="card p-5">
             <h2 className="text-sm font-bold text-slate-700 mb-3">Step 4 — Prescribed Medicines</h2>
             <MasterListAutocomplete type="medicine" placeholder="Search or add medicine..." onSelect={(item) => addMedicine(item)} />
-            {medicines.length > 0 && (
-              <div className="mt-3 space-y-2">
-                {medicines.map((m, i) => (
-                  <div key={i} className="flex flex-wrap items-center gap-2 p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
-                    <span className="text-sm font-semibold text-slate-800 min-w-[120px]">{m.name}</span>
-                    <input className="input text-xs py-1 flex-1 min-w-[80px]" placeholder="Dosage" value={m.dosage}
-                      onChange={(e) => updateMedicine(i, 'dosage', e.target.value)} />
-                    <input className="input text-xs py-1 flex-1 min-w-[80px]" placeholder="Frequency" value={m.frequency}
-                      onChange={(e) => updateMedicine(i, 'frequency', e.target.value)} />
-                    <input className="input text-xs py-1 flex-1 min-w-[80px]" placeholder="Duration" value={m.duration}
-                      onChange={(e) => updateMedicine(i, 'duration', e.target.value)} />
-                    <button onClick={() => removeMedicine(i)} className="text-red-400 hover:text-red-600 p-1">
-                      <FiX />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+             {medicines.length > 0 && (
+               <div className="mt-3 space-y-2">
+                 {medicines.map((m, i) => (
+                   <div key={i} className="flex flex-wrap items-center gap-2 p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+                     <span className="text-sm font-semibold text-slate-800 min-w-[120px]">{m.name}</span>
+                     <input
+                       className="input text-xs py-1 flex-1 min-w-[80px]"
+                       placeholder="Dosage"
+                       value={m.dosage}
+                       list="dosage-suggestions"
+                       onChange={(e) => updateMedicine(i, 'dosage', e.target.value)}
+                     />
+                     <input
+                       className="input text-xs py-1 flex-1 min-w-[80px]"
+                       placeholder="Frequency"
+                       value={m.frequency}
+                       list="frequency-suggestions"
+                       onChange={(e) => updateMedicine(i, 'frequency', e.target.value)}
+                     />
+                     <input
+                       className="input text-xs py-1 flex-1 min-w-[80px]"
+                       placeholder="Duration"
+                       value={m.duration}
+                       list="duration-suggestions"
+                       onChange={(e) => updateMedicine(i, 'duration', e.target.value)}
+                     />
+                     <button onClick={() => removeMedicine(i)} className="text-red-400 hover:text-red-600 p-1">
+                       <FiX />
+                     </button>
+                   </div>
+                 ))}
+               </div>
+             )}
           </div>
 
           {/* Step 5 — Prescribed Tests */}
@@ -740,6 +770,43 @@ function ConsultationContent() {
           }}
         />
       )}
+
+      {/* HTML Datalist Autocomplete Suggestions for Doctor Efficiency */}
+      <datalist id="dosage-suggestions">
+        <option value="500 mg" />
+        <option value="250 mg" />
+        <option value="100 mg" />
+        <option value="50 mg" />
+        <option value="20 mg" />
+        <option value="10 mg" />
+        <option value="5 mg" />
+        <option value="2 mg" />
+        <option value="1 Tab" />
+        <option value="1 Cap" />
+        <option value="1 tsp" />
+      </datalist>
+
+      <datalist id="frequency-suggestions">
+        <option value="1-0-1" />
+        <option value="1-1-1" />
+        <option value="1-0-0" />
+        <option value="0-0-1" />
+        <option value="OD (Once daily)" />
+        <option value="BD (Twice daily)" />
+        <option value="TDS (Thrice daily)" />
+        <option value="QDS (Four times daily)" />
+        <option value="PRN (As needed)" />
+      </datalist>
+
+      <datalist id="duration-suggestions">
+        <option value="5 Days" />
+        <option value="7 Days" />
+        <option value="10 Days" />
+        <option value="2 Weeks" />
+        <option value="1 Month" />
+        <option value="2 Months" />
+        <option value="3 Months" />
+      </datalist>
     </div>
   );
 }
