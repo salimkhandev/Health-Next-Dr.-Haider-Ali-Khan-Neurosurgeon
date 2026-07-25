@@ -67,6 +67,8 @@ function ConsultationContent() {
   const [followUpLoading, setFollowUpLoading] = useState(false);
   const [saveAiChat, setSaveAiChat] = useState(true);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const lastMsgRef = useRef<HTMLDivElement>(null);
+  const chatPanelRef = useRef<HTMLDivElement>(null);
 
   /* ---- Save state ---- */
   const [saving, setSaving] = useState(false);
@@ -133,9 +135,22 @@ function ConsultationContent() {
     loadDraft();
   }, [visitIdFromUrl, fetchPatientByMrn]);
 
+  // Scroll page so the TOP of the latest message is visible
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatHistory.length === 0) return;
+    // Small timeout lets React finish rendering the new message before scrolling
+    setTimeout(() => {
+      lastMsgRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   }, [chatHistory]);
+
+  // When follow-up is loading, also scroll to show the typing indicator
+  useEffect(() => {
+    if (!followUpLoading) return;
+    setTimeout(() => {
+      lastMsgRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }, [followUpLoading]);
 
   /* ---- Symptom helpers ---- */
   function addSymptom() {
@@ -308,44 +323,80 @@ function ConsultationContent() {
   /* ---- Saved success screen ---- */
   if (savedVisitId) {
     return (
-      <div className="max-w-lg mx-auto mt-20 card p-8 text-center space-y-4">
-        <div className="text-5xl">{savedAsDraft ? '📋' : '✅'}</div>
-        <h2 className="text-xl font-bold text-slate-800">
-          {savedAsDraft ? 'Draft Saved — Awaiting Test Results' : 'Visit Completed'}
-        </h2>
-        <p className="text-slate-500 text-sm">
-          {savedAsDraft
-            ? `Exam saved for ${patient?.fullName}. When results arrive, find this visit in the Pending Results tab to continue.`
-            : `Consultation record finalized for ${patient?.fullName}.`}
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
-          {savedAsDraft ? (
-            <>
-              <button onClick={printTestSlip} className="btn-secondary justify-center">
-                <FiPrinter /> Print Test Requisition
-              </button>
-              <Link href="/pending" className="btn-primary justify-center">
-                View Pending Results
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href={`/prescription/${savedVisitId}`} className="btn-primary justify-center">
-                <FiPrinter /> Print Prescription
-              </Link>
-              <Link href={`/patients/${patient?.mrn}`} className="btn-secondary justify-center">
-                View Patient Profile
-              </Link>
-            </>
+      <>
+        {/* Print template — only visible when printing */}
+        <div className="hidden print:block p-8 max-w-2xl mx-auto font-sans">
+          <div className="text-center border-b-2 border-slate-800 pb-3 mb-4">
+            <h1 className="text-xl font-bold">Health Next — Test Requisition</h1>
+            <p className="text-sm text-slate-600">Dr. Haider Ali Khan — Neurosurgery</p>
+            <p className="text-xs text-slate-500">Date: {new Date().toLocaleDateString('en-PK', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
+          </div>
+          {patient && (
+            <div className="mb-4 text-sm space-y-1">
+              <p><strong>Patient:</strong> {patient.fullName}</p>
+              <p><strong>MRN:</strong> {patient.mrn} &nbsp;|&nbsp; <strong>Age/Gender:</strong> {patient.age} / {patient.gender}</p>
+              {patient.contact && <p><strong>Contact:</strong> {patient.contact}</p>}
+              {symptoms.length > 0 && <p><strong>Presenting Complaints:</strong> {symptoms.join(', ')}</p>}
+            </div>
           )}
-          <button onClick={() => {
-            setSavedVisitId(''); setPatient(null); setSymptoms([]); setMedicines([]);
-            setTests([]); setConfirmedDiagnosis(''); setDoctorNotes(''); setAiSuggestions(null); setChatHistory([]);
-          }} className="btn-ghost border border-slate-200 rounded-lg justify-center">
-            New Consultation
-          </button>
+          {tests.length > 0 && (
+            <div className="mb-4">
+              <p className="font-bold text-sm mb-2 uppercase tracking-wide">Tests Ordered:</p>
+              <ul className="space-y-1.5">
+                {tests.map((t) => (
+                  <li key={t} className="flex items-center gap-2 text-sm">
+                    <span className="w-4 h-4 border border-slate-400 inline-block shrink-0 rounded-sm" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <p className="text-xs text-slate-400 border-t pt-2 mt-6 italic">
+            Please bring this slip and all test reports on your next visit. — Health Next
+          </p>
         </div>
-      </div>
+
+        {/* Success card — hidden when printing */}
+        <div className="max-w-lg mx-auto mt-20 card p-8 text-center space-y-4 print:hidden">
+          <div className="text-5xl">{savedAsDraft ? '📋' : '✅'}</div>
+          <h2 className="text-xl font-bold text-slate-800">
+            {savedAsDraft ? 'Draft Saved — Awaiting Test Results' : 'Visit Completed'}
+          </h2>
+          <p className="text-slate-500 text-sm">
+            {savedAsDraft
+              ? `Exam saved for ${patient?.fullName}. When results arrive, find this visit in the Pending Results tab to continue.`
+              : `Consultation record finalized for ${patient?.fullName}.`}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
+            {savedAsDraft ? (
+              <>
+                <button onClick={printTestSlip} className="btn-secondary justify-center">
+                  <FiPrinter /> Print Test Requisition
+                </button>
+                <Link href="/pending" className="btn-primary justify-center">
+                  View Pending Results
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href={`/prescription/${savedVisitId}`} className="btn-primary justify-center">
+                  <FiPrinter /> Print Prescription
+                </Link>
+                <Link href={`/patients/${patient?.mrn}`} className="btn-secondary justify-center">
+                  View Patient Profile
+                </Link>
+              </>
+            )}
+            <button onClick={() => {
+              setSavedVisitId(''); setPatient(null); setSymptoms([]); setMedicines([]);
+              setTests([]); setConfirmedDiagnosis(''); setDoctorNotes(''); setAiSuggestions(null); setChatHistory([]);
+            }} className="btn-ghost border border-slate-200 rounded-lg justify-center">
+              New Consultation
+            </button>
+          </div>
+        </div>
+      </>
     );
   }
 
@@ -674,15 +725,17 @@ function ConsultationContent() {
 
               {/* AI Follow-up chat */}
               {chatHistory.length > 0 && (
-                <div className="border border-slate-200 rounded-xl overflow-hidden">
+                <div ref={chatPanelRef} className="border border-slate-200 rounded-xl overflow-hidden">
                   <div className="bg-slate-50 px-4 py-2 border-b border-slate-200">
                     <p className="text-xs font-bold text-slate-600">AI Follow-up Conversation</p>
                   </div>
                   <div className="max-h-48 overflow-y-auto p-3 space-y-2">
                     {chatHistory.map((m, i) => (
                       <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-[85%] text-xs px-3 py-2 rounded-xl ${
-                          m.role === 'user' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-slate-100 text-slate-700 rounded-bl-none'
+                        <div className={`text-xs px-3 py-2 rounded-xl ${
+                          m.role === 'user'
+                            ? 'max-w-[85%] bg-blue-600 text-white rounded-br-none'
+                            : 'w-full bg-slate-100 text-slate-700 rounded-bl-none'
                         }`}>
                           {m.role === 'assistant' ? (
                             <ReactMarkdown components={{
