@@ -49,11 +49,11 @@ export default async function PrescriptionPage({ params }: PageProps) {
       </div>
 
       {/* Printable Prescription Slip ("Cheque") */}
-      <div className="bg-white rounded-2xl border border-slate-300 p-8 shadow-md print:shadow-none print:border-none print:p-0 print:m-0 space-y-6">
+      <div className="bg-white rounded-2xl border border-slate-300 p-4 sm:p-8 shadow-md print:shadow-none print:border-none print:p-0 print:m-0 space-y-4 sm:space-y-6">
         {/* Header: Health Next branding & Dr. Haider Ali Khan Letterhead */}
         <div className="border-b-2 border-blue-600 pb-4">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex items-start gap-4">
+          <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+            <div className="flex items-start gap-3 sm:gap-4">
               <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-blue-600 shrink-0 bg-slate-100 shadow-sm">
                 <Image
                   src={settings?.hospitalLogoUrl || '/DR-IMAGE.png'}

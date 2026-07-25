@@ -148,21 +148,22 @@ export default function WardManagementPage() {
     }
   }
 
-  // Submit Admission
+  // Handle Admission Submit
   async function handleAdmitSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!foundPatient || !selectedBedForAdmit) return;
+    if (!selectedBedForAdmit || (!admitMrn.trim() && !foundPatient)) {
+      setAdmitError('Please select or lookup a patient MRN.');
+      return;
+    }
 
     setAdmitLoading(true);
     setAdmitError('');
-
     try {
       const res = await fetch('/api/admissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          mrn: foundPatient.mrn,
-          wardId: selectedBedForAdmit.wardId,
+          mrn: (foundPatient?.mrn || admitMrn).trim().toUpperCase(),
           bedId: selectedBedForAdmit._id,
           admittingDiagnosis: admitDiagnosis,
           attendingDoctor: admitDoctor,
@@ -171,90 +172,88 @@ export default function WardManagementPage() {
 
       const data = await res.json();
       if (!res.ok) {
-        setAdmitError(data.error || 'Failed to admit patient.');
-        setAdmitLoading(false);
+        setAdmitError(data.error || 'Failed admitting patient');
         return;
       }
 
-      // Success
       setAdmitModalOpen(false);
-      setSelectedBedForAdmit(null);
-      setFoundPatient(null);
       setAdmitMrn('');
       setAdmitDiagnosis('');
+      setFoundPatient(null);
       loadWardData();
     } catch {
-      setAdmitError('Server error during admission.');
+      setAdmitError('Network error while processing admission');
     } finally {
       setAdmitLoading(false);
     }
   }
 
-  // Submit Discharge
+  // Handle Discharge Submit
   async function handleDischargeSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!selectedBedForDischarge?.admission) return;
+    if (!selectedBedForDischarge || !selectedBedForDischarge.admission) return;
 
-    setAdmitLoading(true);
     try {
-      const res = await fetch(`/api/admissions/${selectedBedForDischarge.admission._id}/discharge`, {
-        method: 'PATCH',
+      const res = await fetch('/api/admissions', {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dischargeNotes }),
+        body: JSON.stringify({
+          admissionId: selectedBedForDischarge.admission._id,
+          dischargeNotes,
+        }),
       });
 
       if (res.ok) {
         setDischargeModalOpen(false);
-        setSelectedBedForDischarge(null);
         setDischargeNotes('');
+        setSelectedBedForDischarge(null);
         loadWardData();
+      } else {
+        alert('Failed discharging patient.');
       }
-    } finally {
-      setAdmitLoading(false);
+    } catch {
+      alert('Error connecting to server.');
     }
   }
 
-  // Toggle Maintenance status for a bed
+  // Toggle Maintenance
   async function toggleBedMaintenance(bed: BedItem) {
     const newStatus = bed.status === 'Under Maintenance' ? 'Available' : 'Under Maintenance';
     try {
-      await fetch(`/api/beds/${bed._id}`, {
-        method: 'PATCH',
+      const res = await fetch('/api/beds', {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({ bedId: bed._id, status: newStatus }),
       });
-      loadWardData();
+      if (res.ok) loadWardData();
     } catch {
-      alert('Failed updating bed status.');
+      alert('Error updating bed status.');
     }
   }
 
-  // Filtered beds list
   const filteredBeds = beds.filter((b) => {
     if (!searchQuery.trim()) return true;
     const q = searchQuery.toLowerCase();
-    return (
-      b.bedNumber.toLowerCase().includes(q) ||
-      b.patient?.fullName.toLowerCase().includes(q) ||
-      b.patient?.mrn.toLowerCase().includes(q) ||
-      b.admission?.admittingDiagnosis.toLowerCase().includes(q)
-    );
+    const matchBed = b.bedNumber.toLowerCase().includes(q);
+    const matchPatient = b.patient?.fullName.toLowerCase().includes(q);
+    const matchMrn = b.patient?.mrn.toLowerCase().includes(q);
+    return matchBed || matchPatient || matchMrn;
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
-      {/* Header & Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="section-title flex items-center gap-2">
+          <h1 className="section-title flex items-center gap-2 text-lg sm:text-xl">
             <FaProcedures className="text-blue-600" /> Ward &amp; Bed Management
           </h1>
-          <p className="section-subtitle mt-0.5">
+          <p className="section-subtitle mt-0.5 text-xs sm:text-sm">
             Real-time ward occupancy, bed allocation &amp; patient admissions
           </p>
         </div>
-        <div className="flex gap-2">
-          <button onClick={() => loadWardData()} className="btn-secondary text-xs">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <button onClick={() => loadWardData()} className="btn-secondary text-xs py-2 justify-center flex-1 sm:flex-initial">
             <FiRefreshCw className={loading ? 'animate-spin' : ''} /> Refresh
           </button>
           <button
@@ -267,7 +266,7 @@ export default function WardManagementPage() {
                 alert('No available beds to admit patient.');
               }
             }}
-            className="btn-primary text-xs"
+            className="btn-primary text-xs py-2 justify-center flex-1 sm:flex-initial"
           >
             <FiPlus /> Admit Patient
           </button>
@@ -275,17 +274,17 @@ export default function WardManagementPage() {
       </div>
 
       {/* Ward Occupancy Overview Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {wards.map((w) => (
           <div
             key={w._id}
             onClick={() => setSelectedWardId(w._id)}
-            className={`card p-5 cursor-pointer transition-all ${
+            className={`card p-4 sm:p-5 cursor-pointer transition-all ${
               selectedWardId === w._id ? 'border-blue-500 ring-2 ring-blue-200' : 'hover:border-slate-300'
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-extrabold text-slate-900 text-base">{w.wardName}</h3>
+              <h3 className="font-extrabold text-slate-900 text-sm sm:text-base">{w.wardName}</h3>
               <span
                 className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                   w.occupancyRate >= 85
@@ -327,12 +326,12 @@ export default function WardManagementPage() {
       </div>
 
       {/* Filter Tabs & Search Bar */}
-      <div className="card p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="card p-3 sm:p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4">
         {/* Ward Filter Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none w-full md:w-auto">
           <button
             onClick={() => setSelectedWardId('ALL')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shrink-0 ${
               selectedWardId === 'ALL'
                 ? 'bg-blue-600 text-white shadow-xs'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -344,7 +343,7 @@ export default function WardManagementPage() {
             <button
               key={w._id}
               onClick={() => setSelectedWardId(w._id)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors whitespace-nowrap ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${
                 selectedWardId === w._id
                   ? 'bg-blue-600 text-white shadow-xs'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -356,7 +355,7 @@ export default function WardManagementPage() {
         </div>
 
         {/* Search Input */}
-        <div className="relative w-full sm:w-64">
+        <div className="relative w-full md:w-64">
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" />
           <input
             className="input pl-9 py-1.5 text-xs"
@@ -369,25 +368,24 @@ export default function WardManagementPage() {
 
       {/* Bed Grid Visualizer */}
       <div className="space-y-3">
-        <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
+        <h2 className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-wider">
           Bed Grid Layout ({filteredBeds.length})
         </h2>
 
         {loading ? (
-          <div className="card p-12 text-center text-slate-400 text-sm">
+          <div className="card p-8 sm:p-12 text-center text-slate-400 text-sm">
             <FiLoader className="animate-spin text-2xl text-blue-500 mx-auto mb-2" />
             Loading ward bed records...
           </div>
         ) : filteredBeds.length === 0 ? (
-          <div className="card p-12 text-center text-slate-500 text-sm">
+          <div className="card p-8 sm:p-12 text-center text-slate-500 text-sm">
             No beds found matching filter.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             {filteredBeds.map((bed) => {
               const isOccupied = bed.status === 'Occupied';
               const isAvailable = bed.status === 'Available';
-              const isMaintenance = bed.status === 'Under Maintenance';
 
               return (
                 <div
@@ -462,7 +460,7 @@ export default function WardManagementPage() {
                           setSelectedBedForDischarge(bed);
                           setDischargeModalOpen(true);
                         }}
-                        className="btn-danger py-1 px-2.5 text-xs w-full justify-center"
+                        className="btn-danger py-1.5 px-2.5 text-xs w-full justify-center"
                       >
                         <FiLogOut /> Discharge Patient
                       </button>
@@ -473,7 +471,7 @@ export default function WardManagementPage() {
                             setSelectedBedForAdmit(bed);
                             setAdmitModalOpen(true);
                           }}
-                          className="btn-primary py-1 px-2.5 text-xs flex-1 justify-center"
+                          className="btn-primary py-1.5 px-2.5 text-xs flex-1 justify-center"
                         >
                           <FiPlus /> Admit
                         </button>
@@ -488,7 +486,7 @@ export default function WardManagementPage() {
                     ) : (
                       <button
                         onClick={() => toggleBedMaintenance(bed)}
-                        className="btn-secondary py-1 px-2 text-xs w-full justify-center"
+                        className="btn-secondary py-1.5 px-2 text-xs w-full justify-center"
                       >
                         Mark Available
                       </button>
@@ -503,11 +501,12 @@ export default function WardManagementPage() {
 
       {/* ADMIT PATIENT MODAL */}
       {admitModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden space-y-4">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden my-auto">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-200 bg-slate-50 shrink-0">
               <div>
-                <h3 className="text-base font-bold text-slate-800">Admit Patient to Ward</h3>
+                <h3 className="text-sm sm:text-base font-bold text-slate-800">Admit Patient to Ward</h3>
                 <p className="text-xs text-slate-500">
                   Target Bed: <span className="font-bold text-blue-700">{selectedBedForAdmit?.bedNumber}</span>
                 </p>
@@ -523,127 +522,137 @@ export default function WardManagementPage() {
               </button>
             </div>
 
-            <form onSubmit={handleAdmitSubmit} className="p-6 space-y-4">
-              {admitError && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-xl">
-                  {admitError}
-                </div>
-              )}
-
-              {/* Quick Select Today's Checked / Recent Patients */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                    <FaUserInjured className="text-blue-500" /> Today's Checked / Recent Patients
-                  </label>
-                  <span className="text-[10px] text-slate-400 font-medium">1-Click Auto Select</span>
-                </div>
-                {loadingRecent ? (
-                  <div className="p-3 text-center text-xs text-slate-400 flex items-center justify-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl">
-                    <FiLoader className="animate-spin text-blue-500" /> Loading patients...
-                  </div>
-                ) : recentPatients.length === 0 ? (
-                  <p className="text-xs text-slate-400 italic p-2 bg-slate-50 rounded-lg">No recent patients found.</p>
-                ) : (
-                  <div className="grid grid-cols-2 gap-2 max-h-36 overflow-y-auto p-1.5 bg-slate-50 border border-slate-200 rounded-xl">
-                    {recentPatients.map((p) => {
-                      const isSelected = foundPatient?.mrn === p.mrn;
-                      return (
-                        <button
-                          key={p.mrn}
-                          type="button"
-                          onClick={() => selectSuggestedPatient(p)}
-                          className={`text-left text-xs p-2 rounded-lg border transition-all cursor-pointer ${
-                            isSelected
-                              ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                              : 'bg-white text-slate-800 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50'
-                          }`}
-                        >
-                          <p className="font-bold truncate">{p.fullName}</p>
-                          <p className={`text-[10px] font-mono ${isSelected ? 'text-blue-100' : 'text-blue-700 font-semibold'}`}>
-                            {p.mrn} · {p.gender}, {p.age}y
-                          </p>
-                        </button>
-                      );
-                    })}
+            {/* Modal Body */}
+            <form onSubmit={handleAdmitSubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
+                {admitError && (
+                  <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-xl">
+                    {admitError}
                   </div>
                 )}
-              </div>
 
-              {/* Patient MRN Search / Manual Override */}
-              <div className="field-group">
-                <label className="label">Or Enter Patient MRN Manually</label>
-                <div className="flex gap-2">
+                {/* Quick Select Today's Checked / Recent Patients */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                      <FaUserInjured className="text-blue-500" /> Today&apos;s Checked / Recent Patients
+                    </label>
+                    <span className="text-[10px] text-slate-400 font-medium">1-Click Auto Select</span>
+                  </div>
+                  {loadingRecent ? (
+                    <div className="p-3 text-center text-xs text-slate-400 flex items-center justify-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl">
+                      <FiLoader className="animate-spin text-blue-500" /> Loading patients...
+                    </div>
+                  ) : recentPatients.length === 0 ? (
+                    <p className="text-xs text-slate-400 italic p-2 bg-slate-50 rounded-lg">No recent patients found.</p>
+                  ) : (
+                    <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-1 bg-slate-50 border border-slate-200 rounded-xl">
+                      {recentPatients.map((p) => {
+                        const isSelected = (foundPatient?.mrn || admitMrn) === p.mrn;
+                        return (
+                          <button
+                            key={p.mrn}
+                            type="button"
+                            onClick={() => selectSuggestedPatient(p)}
+                            className={`text-xs px-2.5 py-1.5 rounded-lg border font-semibold flex items-center gap-1.5 transition-all text-left ${
+                              isSelected
+                                ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                                : 'bg-white text-slate-700 border-slate-200 hover:border-blue-400 hover:bg-blue-50/50'
+                            }`}
+                          >
+                            <FaHeartbeat className={isSelected ? 'text-white' : 'text-blue-500'} />
+                            <span>{p.fullName}</span>
+                            <span className={`text-[10px] font-mono ${isSelected ? 'text-blue-100' : 'text-slate-400'}`}>
+                              ({p.mrn})
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                {/* Patient Selection / Lookup */}
+                <div className="field-group">
+                  <label className="label">Patient MRN *</label>
+                  <div className="flex gap-2">
+                    <input
+                      className="input uppercase font-mono text-sm"
+                      placeholder="e.g. NC-2026-0001"
+                      value={admitMrn}
+                      onChange={(e) => {
+                        setAdmitMrn(e.target.value);
+                        setFoundPatient(null);
+                      }}
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleLookupPatient(admitMrn)}
+                      className="btn-secondary text-xs"
+                      disabled={searchingPatient || !admitMrn.trim()}
+                    >
+                      {searchingPatient ? <FiLoader className="animate-spin" /> : <FiSearch />} Lookup
+                    </button>
+                  </div>
+                </div>
+
+                {/* Selected Patient Details Preview */}
+                {foundPatient && (
+                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm">
+                      {foundPatient.fullName.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-900 text-xs">{foundPatient.fullName}</p>
+                      <p className="text-[11px] text-slate-600">
+                        {foundPatient.mrn} · {foundPatient.gender}, {foundPatient.age}y · Phone: {foundPatient.contact}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Admitting Diagnosis */}
+                <div className="field-group">
+                  <label className="label">Admitting Diagnosis *</label>
                   <input
-                    className="input uppercase"
-                    placeholder="NC-2026-XXXX"
-                    value={admitMrn}
-                    onChange={(e) => setAdmitMrn(e.target.value.toUpperCase())}
+                    className="input text-xs"
+                    placeholder="e.g. Lumbar Disc Herniation, Hydrocephalus"
+                    value={admitDiagnosis}
+                    onChange={(e) => setAdmitDiagnosis(e.target.value)}
                     required
                   />
-                  <button
-                    type="button"
-                    onClick={() => handleLookupPatient(admitMrn)}
-                    disabled={searchingPatient || !admitMrn.trim()}
-                    className="btn-secondary shrink-0"
-                  >
-                    {searchingPatient ? <FiLoader className="animate-spin" /> : 'Find Patient'}
-                  </button>
+                </div>
+
+                {/* Attending Doctor */}
+                <div className="field-group">
+                  <label className="label">Attending Doctor</label>
+                  <input
+                    className="input text-xs"
+                    value={admitDoctor}
+                    onChange={(e) => setAdmitDoctor(e.target.value)}
+                  />
                 </div>
               </div>
 
-              {/* Patient Found Banner */}
-              {foundPatient && (
-                <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">
-                    {foundPatient.fullName.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-slate-900">{foundPatient.fullName}</p>
-                    <p className="text-xs text-slate-500">
-                      <span className="font-mono font-bold text-blue-700">{foundPatient.mrn}</span> · {foundPatient.gender}, {foundPatient.age}y · Contact: {foundPatient.contact}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              <div className="field-group">
-                <label className="label">Admitting Diagnosis *</label>
-                <input
-                  className="input"
-                  placeholder="e.g. Subdural Hematoma, Lumbar Disc Herniation"
-                  value={admitDiagnosis}
-                  onChange={(e) => setAdmitDiagnosis(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="field-group">
-                <label className="label">Attending Doctor</label>
-                <input
-                  className="input"
-                  value={admitDoctor}
-                  onChange={(e) => setAdmitDoctor(e.target.value)}
-                />
-              </div>
-
-              <div className="flex justify-end gap-3 pt-3 border-t border-slate-100">
+              {/* Modal Footer */}
+              <div className="p-4 border-t border-slate-100 bg-slate-50 flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3 shrink-0">
                 <button
                   type="button"
                   onClick={() => {
                     setAdmitModalOpen(false);
                     setFoundPatient(null);
                   }}
-                  className="btn-secondary"
+                  className="btn-secondary w-full sm:w-auto justify-center"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  disabled={admitLoading || !foundPatient || !admitDiagnosis.trim()}
-                  className="btn-primary"
+                  disabled={admitLoading || (!admitMrn.trim() && !foundPatient)}
+                  className="btn-primary w-full sm:w-auto justify-center"
                 >
-                  {admitLoading ? <FiLoader className="animate-spin" /> : 'Confirm Admission'}
+                  {admitLoading ? <FiLoader className="animate-spin" /> : <FiPlus />} Complete Admission
                 </button>
               </div>
             </form>
@@ -653,49 +662,46 @@ export default function WardManagementPage() {
 
       {/* DISCHARGE PATIENT MODAL */}
       {dischargeModalOpen && selectedBedForDischarge && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden space-y-4">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden my-auto">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-200 bg-slate-50">
               <div>
-                <h3 className="text-base font-bold text-slate-800">Discharge Patient</h3>
-                <p className="text-xs text-slate-500">Bed: {selectedBedForDischarge.bedNumber}</p>
+                <h3 className="text-sm sm:text-base font-bold text-slate-800">Discharge Patient</h3>
+                <p className="text-xs text-slate-500">
+                  Bed: <span className="font-bold text-slate-900">{selectedBedForDischarge.bedNumber}</span>
+                </p>
               </div>
               <button onClick={() => setDischargeModalOpen(false)} className="btn-ghost p-1.5">
                 <FiX className="text-lg" />
               </button>
             </div>
 
-            <form onSubmit={handleDischargeSubmit} className="p-6 space-y-4">
-              <div className="p-3 bg-red-50 border border-red-200 rounded-xl space-y-1 text-xs text-red-900">
-                <p className="font-bold text-sm text-red-800">{selectedBedForDischarge.patient?.fullName}</p>
-                <p className="font-mono">MRN: {selectedBedForDischarge.patient?.mrn}</p>
-                <p>Admitted on: {selectedBedForDischarge.admission?.admissionDate ? new Date(selectedBedForDischarge.admission.admissionDate).toLocaleDateString('en-GB') : 'N/A'}</p>
-              </div>
+            <form onSubmit={handleDischargeSubmit} className="p-4 sm:p-6 space-y-4">
+              {selectedBedForDischarge.patient && (
+                <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                  <p className="font-bold text-slate-900 text-xs">{selectedBedForDischarge.patient.fullName}</p>
+                  <p className="text-[11px] text-slate-500">
+                    MRN: <span className="font-mono font-bold text-blue-700">{selectedBedForDischarge.patient.mrn}</span>
+                  </p>
+                </div>
+              )}
 
               <div className="field-group">
-                <label className="label">Discharge Notes / Summary</label>
+                <label className="label">Discharge Notes &amp; Instructions</label>
                 <textarea
-                  className="input min-h-[80px] resize-y text-xs"
-                  placeholder="Patient condition at discharge, medications to continue, follow-up instructions..."
+                  className="input min-h-[80px] text-xs resize-y"
+                  placeholder="Summary of ward stay, recovery state, post-discharge medication..."
                   value={dischargeNotes}
                   onChange={(e) => setDischargeNotes(e.target.value)}
                 />
               </div>
 
-              <div className="flex justify-end gap-3 pt-2 border-t border-slate-100">
-                <button
-                  type="button"
-                  onClick={() => setDischargeModalOpen(false)}
-                  className="btn-secondary"
-                >
+              <div className="flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3 pt-2 border-t border-slate-100">
+                <button type="button" onClick={() => setDischargeModalOpen(false)} className="btn-secondary w-full sm:w-auto justify-center">
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  disabled={admitLoading}
-                  className="btn-danger"
-                >
-                  {admitLoading ? <FiLoader className="animate-spin" /> : 'Confirm Discharge'}
+                <button type="submit" className="btn-danger w-full sm:w-auto justify-center">
+                  <FiLogOut /> Confirm Discharge
                 </button>
               </div>
             </form>

@@ -228,10 +228,10 @@ export default function SettingsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="card p-2 flex gap-2 border-b border-slate-200">
+      <div className="card p-1.5 sm:p-2 flex gap-1.5 sm:gap-2 border-b border-slate-200 overflow-x-auto scrollbar-none">
         <button
           onClick={() => setActiveTab('profile')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${
             activeTab === 'profile'
               ? 'bg-blue-600 text-white shadow-xs'
               : 'text-slate-600 hover:bg-slate-100'
@@ -241,7 +241,7 @@ export default function SettingsPage() {
         </button>
         <button
           onClick={() => setActiveTab('wards')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${
             activeTab === 'wards'
               ? 'bg-blue-600 text-white shadow-xs'
               : 'text-slate-600 hover:bg-slate-100'
@@ -251,7 +251,7 @@ export default function SettingsPage() {
         </button>
         <button
           onClick={() => setActiveTab('master')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${
             activeTab === 'master'
               ? 'bg-blue-600 text-white shadow-xs'
               : 'text-slate-600 hover:bg-slate-100'

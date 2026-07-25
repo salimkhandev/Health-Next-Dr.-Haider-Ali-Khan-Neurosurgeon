@@ -1,26 +1,30 @@
-# PashtoSkills — Learn Online Skills in Pashto
+# NitroClinic — Health Next (Dr. Haider Ali Khan, Neurosurgeon)
 
-PashtoSkills is a premium, offline-first online educational platform designed to teach high-income online skills entirely in the Pashto language.
+NitroClinic is a clinical patient management, AI consultation assistant, and ward occupancy system designed specifically for **Dr. Haider Ali Khan**, Neurosurgeon at **Health Next**.
 
-## Key Features
+### 🚀 Live Deployment
+- **URL:** [https://dr-haider-ali-khan-neurosurgeon.vercel.app](https://dr-haider-ali-khan-neurosurgeon.vercel.app)
 
-1. **Secure Streaming:** Videos are served via short-lived signed URLs. Nothing is permanently downloadable to the user's device directly.
-2. **Offline-First (PWA):** Users can securely cache videos for offline viewing using our custom Service Worker setup.
-3. **Role-Based Workflows:** Separate dashboards for Admins and Students.
-4. **Course-Specific Payments:** Automatic dynamic pricing for individual courses.
+---
 
-## Tech Stack
+### 🔑 Default Credentials
+- **Doctor Login:** `doctor@healthnext.com` / `clinic@2026`
+- **Admin Login:** `alamdar0000@gmail.com` / `alamdar0000`
 
-- Next.js (App Router)
-- React 19
-- MongoDB + Mongoose
-- NextAuth for Authentication
-- Cloudflare R2 for Secure Video & Image Storage
-- Tailwind CSS
+---
 
-## Development
+### 🏥 Core Capabilities
+1. **Longitudinal Patient Records:** Unique MRN tracking (`NC-YYYY-XXXX`) with atomic sequence generation.
+2. **AI-Assisted Consultation:** Integrated Gemini 3.1 Flash Lite clinical assistant for symptom-to-diagnosis reasoning, allergy conflict safety checks, and suggested treatments.
+3. **Ward & Bed Occupancy:** Real-time bed tracking across ICU, Neuro Ward, and General Ward.
+4. **Printable Prescription Slips:** Letterhead generation for Dr. Haider Ali Khan with qualifications and Health Next branding.
+5. **Mobile-Responsive UI:** Responsive design across mobile phones, tablets, and desktop workstations.
 
-```bash
-pnpm install
-pnpm dev
-```
+---
+
+### 🛠️ Tech Stack
+- Next.js (App Router, Turbopack)
+- React 19 + Tailwind CSS
+- MongoDB Atlas + Mongoose
+- NextAuth Authentication
+- Gemini 3.1 Flash Lite API Integration

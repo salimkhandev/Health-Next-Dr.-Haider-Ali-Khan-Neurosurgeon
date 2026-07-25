@@ -50,16 +50,16 @@ export default function PatientsPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6">
       {/* Page header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="section-title flex items-center gap-2">
+          <h1 className="section-title flex items-center gap-2 text-lg sm:text-xl">
             <FaUserInjured className="text-blue-500" /> Patient Directory
           </h1>
-          <p className="section-subtitle mt-0.5">Search by MRN, name, or phone number</p>
+          <p className="section-subtitle mt-0.5 text-xs sm:text-sm">Search by MRN, name, or phone number</p>
         </div>
-        <button onClick={() => setShowRegister(true)} className="btn-primary">
+        <button onClick={() => setShowRegister(true)} className="btn-primary justify-center w-full sm:w-auto text-xs sm:text-sm py-2.5">
           <FiPlus /> Register New Patient
         </button>
       </div>
@@ -68,8 +68,8 @@ export default function PatientsPage() {
       <div className="relative">
         <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base" />
         <input
-          className="input pl-10 py-3 text-base shadow-sm"
-          placeholder="Search by MRN (NC-2026-0001), full name, or contact number..."
+          className="input pl-10 py-2.5 sm:py-3 text-sm sm:text-base shadow-xs"
+          placeholder="Search by MRN (NC-2026-0001), name, contact..."
           value={q}
           onChange={(e) => setQ(e.target.value)}
           autoFocus
@@ -81,15 +81,15 @@ export default function PatientsPage() {
 
       {/* Results */}
       {patients.length === 0 && !loading ? (
-        <div className="card flex flex-col items-center justify-center py-20 text-center">
-          <FaHeartbeat className="text-5xl text-slate-200 mb-4" />
-          <p className="text-slate-500 font-semibold">
+        <div className="card flex flex-col items-center justify-center py-12 sm:py-20 text-center px-4">
+          <FaHeartbeat className="text-4xl sm:text-5xl text-slate-200 mb-3" />
+          <p className="text-slate-500 font-semibold text-sm sm:text-base">
             {q ? 'No patients found matching your search.' : 'No patients registered yet.'}
           </p>
           {q && (
-            <p className="text-slate-400 text-sm mt-1">
-              Try a different name, MRN, or phone number — or
-              <button className="text-blue-600 font-semibold ml-1 hover:underline" onClick={() => setShowRegister(true)}>
+            <p className="text-slate-400 text-xs sm:text-sm mt-1">
+              Try a different name, MRN, or phone number — or{' '}
+              <button className="text-blue-600 font-semibold hover:underline" onClick={() => setShowRegister(true)}>
                 register a new patient.
               </button>
             </p>
@@ -97,7 +97,7 @@ export default function PatientsPage() {
         </div>
       ) : (
         <>
-          <p className="text-xs text-slate-400 font-medium">
+          <p className="text-xs text-slate-400 font-medium px-1">
             {loading ? 'Searching...' : `${total} patient${total !== 1 ? 's' : ''} found`}
           </p>
           <div className="card overflow-hidden divide-y divide-slate-100">
@@ -105,7 +105,7 @@ export default function PatientsPage() {
               <Link
                 key={p.mrn}
                 href={`/patients/${p.mrn}`}
-                className="flex items-center gap-4 px-5 py-4 hover:bg-blue-50/50 transition-colors group"
+                className="flex items-center gap-3 sm:gap-4 p-3.5 sm:p-4 hover:bg-blue-50/50 transition-colors group"
               >
                 {/* Avatar */}
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center shrink-0 font-bold text-blue-600 text-sm uppercase border border-blue-200">
@@ -115,7 +115,7 @@ export default function PatientsPage() {
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-semibold text-slate-900 text-sm">{p.fullName}</span>
+                    <span className="font-semibold text-slate-900 text-xs sm:text-sm">{p.fullName}</span>
                     <GenderBadge gender={p.gender} />
                     {p.allergies?.length > 0 && (
                       <span className="tag-red text-[10px] px-1.5 py-0.5">
@@ -123,21 +123,21 @@ export default function PatientsPage() {
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-3 mt-0.5 text-xs text-slate-500">
-                    <span className="font-mono font-semibold text-blue-700">{p.mrn}</span>
-                    <span>·</span>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1 text-[11px] sm:text-xs text-slate-500">
+                    <span className="font-mono font-bold text-blue-700">{p.mrn}</span>
+                    <span className="hidden sm:inline">·</span>
                     <span>Age {p.age}</span>
                     <span>·</span>
-                    <span>{p.contact}</span>
-                    <span>·</span>
-                    <span className="flex items-center gap-1">
-                      <FiUser className="text-slate-400" />
+                    <span className="truncate">{p.contact}</span>
+                    <span className="hidden sm:inline">·</span>
+                    <span className="flex items-center gap-1 font-medium text-slate-600">
+                      <FiUser className="text-slate-400 text-xs" />
                       {p.visitCount} visit{p.visitCount !== 1 ? 's' : ''}
                     </span>
                   </div>
                 </div>
 
-                <FiChevronRight className="text-slate-300 group-hover:text-blue-500 transition-colors text-lg shrink-0" />
+                <FiChevronRight className="text-slate-300 group-hover:text-blue-500 transition-colors text-base sm:text-lg shrink-0" />
               </Link>
             ))}
           </div>
