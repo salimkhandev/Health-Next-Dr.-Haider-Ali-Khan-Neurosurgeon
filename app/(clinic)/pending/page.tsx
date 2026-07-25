@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { FiLoader, FiClock, FiArrowRight, FiInbox } from 'react-icons/fi';
+import { FiLoader, FiClock, FiArrowRight, FiInbox, FiAlertTriangle, FiRefreshCw } from 'react-icons/fi';
 import { FaFlask } from 'react-icons/fa';
 
 interface DraftVisit {
@@ -18,19 +18,31 @@ interface DraftVisit {
 export default function PendingResultsPage() {
   const [drafts, setDrafts] = useState<DraftVisit[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/visits/drafts');
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? `Failed to load (HTTP ${res.status})`);
+        setDrafts([]);
+        return;
+      }
+      setDrafts(data.drafts ?? []);
+    } catch {
+      setError('Network error — could not reach the server.');
+      setDrafts([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    async function load() {
-      try {
-        const res = await fetch('/api/visits/drafts');
-        const data = await res.json();
-        setDrafts(data.drafts ?? []);
-      } finally {
-        setLoading(false);
-      }
-    }
     load();
-  }, []);
+  }, [load]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-5">
@@ -44,18 +56,42 @@ export default function PendingResultsPage() {
             Patients who have been examined but are awaiting test results. Click &ldquo;Continue Visit&rdquo; when they return.
           </p>
         </div>
-        {!loading && (
-          <span className="text-sm font-bold bg-amber-100 text-amber-700 border border-amber-300 px-3 py-1 rounded-full">
-            {drafts.length} Pending
-          </span>
-        )}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={load}
+            disabled={loading}
+            className="btn-ghost border border-slate-200 rounded-lg text-xs"
+            title="Refresh list"
+          >
+            <FiRefreshCw className={loading ? 'animate-spin' : ''} /> Refresh
+          </button>
+          {!loading && !error && (
+            <span className="text-sm font-bold bg-amber-100 text-amber-700 border border-amber-300 px-3 py-1 rounded-full">
+              {drafts.length} Pending
+            </span>
+          )}
+        </div>
       </div>
+
+      {/* Error banner */}
+      {error && (
+        <div className="flex items-start gap-3 bg-red-50 border border-red-300 rounded-xl px-4 py-3">
+          <FiAlertTriangle className="text-red-500 mt-0.5 shrink-0" />
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-red-700">Could not load pending visits</p>
+            <p className="text-xs text-red-600 mt-0.5">{error}</p>
+          </div>
+          <button onClick={load} className="text-xs text-red-700 underline hover:no-underline shrink-0">
+            Retry
+          </button>
+        </div>
+      )}
 
       {loading ? (
         <div className="flex items-center justify-center h-48 text-slate-400 gap-2">
           <FiLoader className="animate-spin text-xl" /> Loading pending visits…
         </div>
-      ) : drafts.length === 0 ? (
+      ) : !error && drafts.length === 0 ? (
         <div className="card p-12 text-center space-y-3">
           <FiInbox className="text-5xl text-slate-300 mx-auto" />
           <p className="text-slate-500 font-semibold">No pending visits</p>
