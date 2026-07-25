@@ -71,6 +71,41 @@ export default function WardManagementPage() {
   const [foundPatient, setFoundPatient] = useState<Patient | null>(null);
   const [searchingPatient, setSearchingPatient] = useState<boolean>(false);
 
+  // Suggested recent/today's patients
+  const [recentPatients, setRecentPatients] = useState<Patient[]>([]);
+  const [loadingRecent, setLoadingRecent] = useState<boolean>(false);
+
+  // Fetch recent patients when admit modal opens
+  useEffect(() => {
+    if (admitModalOpen) {
+      setLoadingRecent(true);
+      fetch('/api/patients?limit=12')
+        .then((res) => res.json())
+        .then((data) => {
+          setRecentPatients(data.patients || []);
+        })
+        .catch(() => {})
+        .finally(() => setLoadingRecent(false));
+    }
+  }, [admitModalOpen]);
+
+  // One-click select suggested patient
+  async function selectSuggestedPatient(p: Patient) {
+    setAdmitMrn(p.mrn);
+    setFoundPatient(p);
+    setAdmitError('');
+    try {
+      const res = await fetch(`/api/visits?mrn=${p.mrn}`);
+      const data = await res.json();
+      if (data.visits && data.visits.length > 0) {
+        const latestDx = data.visits[0].confirmedDiagnosis;
+        if (latestDx && !admitDiagnosis) {
+          setAdmitDiagnosis(latestDx);
+        }
+      }
+    } catch {}
+  }
+
   const loadWardData = useCallback(async () => {
     setLoading(true);
     try {
@@ -495,9 +530,49 @@ export default function WardManagementPage() {
                 </div>
               )}
 
-              {/* Patient MRN Search */}
+              {/* Quick Select Today's Checked / Recent Patients */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                    <FaUserInjured className="text-blue-500" /> Today's Checked / Recent Patients
+                  </label>
+                  <span className="text-[10px] text-slate-400 font-medium">1-Click Auto Select</span>
+                </div>
+                {loadingRecent ? (
+                  <div className="p-3 text-center text-xs text-slate-400 flex items-center justify-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl">
+                    <FiLoader className="animate-spin text-blue-500" /> Loading patients...
+                  </div>
+                ) : recentPatients.length === 0 ? (
+                  <p className="text-xs text-slate-400 italic p-2 bg-slate-50 rounded-lg">No recent patients found.</p>
+                ) : (
+                  <div className="grid grid-cols-2 gap-2 max-h-36 overflow-y-auto p-1.5 bg-slate-50 border border-slate-200 rounded-xl">
+                    {recentPatients.map((p) => {
+                      const isSelected = foundPatient?.mrn === p.mrn;
+                      return (
+                        <button
+                          key={p.mrn}
+                          type="button"
+                          onClick={() => selectSuggestedPatient(p)}
+                          className={`text-left text-xs p-2 rounded-lg border transition-all cursor-pointer ${
+                            isSelected
+                              ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                              : 'bg-white text-slate-800 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50'
+                          }`}
+                        >
+                          <p className="font-bold truncate">{p.fullName}</p>
+                          <p className={`text-[10px] font-mono ${isSelected ? 'text-blue-100' : 'text-blue-700 font-semibold'}`}>
+                            {p.mrn} · {p.gender}, {p.age}y
+                          </p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Patient MRN Search / Manual Override */}
               <div className="field-group">
-                <label className="label">Patient MRN *</label>
+                <label className="label">Or Enter Patient MRN Manually</label>
                 <div className="flex gap-2">
                   <input
                     className="input uppercase"
