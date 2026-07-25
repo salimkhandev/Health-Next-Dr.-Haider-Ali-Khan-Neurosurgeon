@@ -243,18 +243,21 @@ export default function WardManagementPage() {
   return (
     <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h1 className="section-title flex items-center gap-2 text-lg sm:text-xl">
-            <FaProcedures className="text-blue-600" /> Ward &amp; Bed Management
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          <h1 className="section-title flex items-center gap-1.5 text-base sm:text-xl">
+            <FaProcedures className="text-blue-600 shrink-0" />
+            <span className="hidden sm:inline">Ward &amp; Bed Management</span>
+            <span className="sm:hidden">Wards</span>
           </h1>
-          <p className="section-subtitle mt-0.5 text-xs sm:text-sm">
-            Real-time ward occupancy, bed allocation &amp; patient admissions
+          <p className="section-subtitle mt-0.5 text-[10px] sm:text-sm hidden sm:block">
+            Real-time ward occupancy &amp; admissions
           </p>
         </div>
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <button onClick={() => loadWardData()} className="btn-secondary text-xs py-2 justify-center flex-1 sm:flex-initial">
-            <FiRefreshCw className={loading ? 'animate-spin' : ''} /> Refresh
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button onClick={() => loadWardData()} className="btn-secondary">
+            <FiRefreshCw className={loading ? 'animate-spin' : ''} />
+            <span className="hidden sm:inline">Refresh</span>
           </button>
           <button
             onClick={() => {
@@ -266,9 +269,11 @@ export default function WardManagementPage() {
                 alert('No available beds to admit patient.');
               }
             }}
-            className="btn-primary text-xs py-2 justify-center flex-1 sm:flex-initial"
+            className="btn-primary"
           >
-            <FiPlus /> Admit Patient
+            <FiPlus />
+            <span className="hidden sm:inline">Admit Patient</span>
+            <span className="sm:hidden">Admit</span>
           </button>
         </div>
       </div>
@@ -356,7 +361,7 @@ export default function WardManagementPage() {
 
         {/* Search Input */}
         <div className="relative w-full md:w-64">
-          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" />
+          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none z-10" />
           <input
             className="input pl-9 py-1.5 text-xs"
             placeholder="Search bed, patient name, MRN..."

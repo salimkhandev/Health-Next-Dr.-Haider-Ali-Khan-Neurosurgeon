@@ -281,7 +281,7 @@ function ConsultationContent() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-5">
+    <div className="max-w-5xl mx-auto space-y-4 sm:space-y-5">
       {/* Page header */}
       <div className="flex items-center justify-between">
         <h1 className="section-title flex items-center gap-2">
@@ -289,24 +289,28 @@ function ConsultationContent() {
         </h1>
       </div>
 
-      {/* AI disclaimer — persistent, non-dismissible */}
-      <div className="flex items-start gap-2 text-xs text-blue-700 bg-blue-50 border border-blue-200 rounded-xl px-4 py-3">
+      {/* AI disclaimer */}
+      <div className="flex items-start gap-2 text-[11px] sm:text-xs text-blue-700 bg-blue-50 border border-blue-200 rounded-xl px-3 sm:px-4 py-2.5">
         <FiInfo className="shrink-0 mt-0.5 text-blue-500" />
-        <p>{DISCLAIMER}</p>
+        <p className="leading-snug">{DISCLAIMER}</p>
       </div>
 
       {/* STEP 1 — PATIENT AUTOCOMPLETE SEARCH */}
-      <div className="card p-5 space-y-4">
+      <div className="card p-4 sm:p-5 space-y-3 sm:space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-bold text-slate-700 flex items-center gap-2">
-            <FaUserInjured className="text-blue-500" /> Step 1 — Select Patient
+          <h2 className="text-xs sm:text-sm font-bold text-slate-700 flex items-center gap-1.5">
+            <FaUserInjured className="text-blue-500" />
+            <span className="hidden sm:inline">Step 1 — Select Patient</span>
+            <span className="sm:hidden">Select Patient</span>
           </h2>
           {!patient && (
             <button
               onClick={() => setShowRegisterModal(true)}
-              className="btn-secondary text-xs py-1 px-3"
+              className="btn-secondary"
             >
-              <FiPlus /> Register New Patient
+              <FiPlus />
+              <span className="hidden sm:inline">Register New Patient</span>
+              <span className="sm:hidden">Register</span>
             </button>
           )}
         </div>

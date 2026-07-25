@@ -63,7 +63,7 @@ export default function PatientSearchAutocomplete({ onSelectPatient }: Props) {
   return (
     <div ref={wrapRef} className="relative flex-1">
       <div className="relative">
-        <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base" />
+        <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base pointer-events-none z-10" />
         <input
           className="input pl-10 pr-9 py-2.5 text-sm shadow-xs"
           placeholder="Search by Patient Name, Phone Number, or MRN..."
@@ -73,7 +73,7 @@ export default function PatientSearchAutocomplete({ onSelectPatient }: Props) {
           autoFocus
         />
         {loading && (
-          <FiLoader className="absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-blue-500 text-base" />
+          <FiLoader className="absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-blue-500 text-base pointer-events-none z-10" />
         )}
       </div>
 

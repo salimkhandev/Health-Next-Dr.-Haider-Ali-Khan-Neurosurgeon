@@ -7,19 +7,28 @@ import { FiLogOut, FiBell, FiMenu } from 'react-icons/fi';
 
 const pageTitles: Record<string, string> = {
   '/': 'Dashboard',
+  '/patients': 'Patients',
+  '/consultation': 'Consultation',
+  '/wards': 'Wards',
+  '/settings': 'Settings',
+};
+
+const pageTitlesFull: Record<string, string> = {
+  '/': 'Dashboard',
   '/patients': 'Patients Directory',
   '/consultation': 'New Consultation',
   '/wards': 'Ward Management',
   '/settings': 'Settings',
 };
 
-function getTitle(pathname: string) {
-  if (pageTitles[pathname]) return pageTitles[pathname];
-  if (pathname.startsWith('/patients/') && pathname.includes('/consult')) return 'New Consultation';
-  if (pathname.startsWith('/patients/') && pathname.includes('/export')) return 'Patient History Export';
-  if (pathname.startsWith('/patients/')) return 'Patient Profile';
-  if (pathname.startsWith('/prescription/')) return 'Prescription Slip';
-  if (pathname.startsWith('/wards')) return 'Ward Management';
+function getTitle(pathname: string, short = false) {
+  const map = short ? pageTitles : pageTitlesFull;
+  if (map[pathname]) return map[pathname];
+  if (pathname.startsWith('/patients/') && pathname.includes('/consult')) return short ? 'Consult' : 'New Consultation';
+  if (pathname.startsWith('/patients/') && pathname.includes('/export')) return short ? 'Export' : 'Patient Export';
+  if (pathname.startsWith('/patients/')) return short ? 'Profile' : 'Patient Profile';
+  if (pathname.startsWith('/prescription/')) return short ? 'Rx Slip' : 'Prescription Slip';
+  if (pathname.startsWith('/wards')) return short ? 'Wards' : 'Ward Management';
   return 'NitroClinic';
 }
 
@@ -30,46 +39,56 @@ interface HeaderProps {
 export default function Header({ onMenuClick }: HeaderProps) {
   const pathname = usePathname() ?? '';
   const { data: session } = useSession();
-  const title = getTitle(pathname);
 
   return (
-    <header className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20 shadow-xs print:hidden">
-      <div className="flex items-center gap-3">
-        {/* Mobile Hamburger Button */}
+    <header className="h-12 sm:h-14 bg-white border-b border-slate-200 flex items-center justify-between px-3 sm:px-6 sticky top-0 z-20 shadow-xs print:hidden">
+      {/* Left: hamburger + title */}
+      <div className="flex items-center gap-2 min-w-0">
         {onMenuClick && (
           <button
             onClick={onMenuClick}
-            className="md:hidden p-2 -ml-1 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
+            className="md:hidden flex-shrink-0 p-1.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
             aria-label="Open navigation menu"
           >
-            <FiMenu className="text-xl" />
+            <FiMenu className="text-lg" />
           </button>
         )}
-        <div>
-          <h1 className="text-sm sm:text-base font-semibold text-slate-800 leading-tight">{title}</h1>
-          <p className="text-[10px] sm:text-xs text-slate-400 font-medium hidden sm:block">
-            Health Next · Neurosurgery Practice
+        <div className="min-w-0">
+          {/* Short title on mobile, full on sm+ */}
+          <h1 className="text-sm font-semibold text-slate-800 leading-tight truncate block sm:hidden">
+            {getTitle(pathname, true)}
+          </h1>
+          <h1 className="text-sm sm:text-base font-semibold text-slate-800 leading-tight truncate hidden sm:block">
+            {getTitle(pathname, false)}
+          </h1>
+          <p className="text-[10px] text-slate-400 font-medium hidden sm:block">
+            Health Next · Neurosurgery
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-2 sm:gap-3">
+
+      {/* Right: actions */}
+      <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
         <button
-          className="relative p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors"
+          className="p-1.5 sm:p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors"
           aria-label="Notifications"
         >
           <FiBell className="text-base sm:text-lg" />
         </button>
-        <div className="flex items-center gap-2 pl-2 sm:pl-3 border-l border-slate-200">
+        <div className="flex items-center gap-1.5 sm:gap-2 pl-1.5 sm:pl-3 border-l border-slate-200">
+          {/* Name only on sm+ */}
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-semibold text-slate-800">{session?.user?.name ?? 'Dr. Haider Ali Khan'}</p>
+            <p className="text-xs font-semibold text-slate-800 truncate max-w-[120px]">
+              {session?.user?.name ?? 'Dr. Haider Ali Khan'}
+            </p>
             <p className="text-[10px] text-slate-400">Neurosurgeon</p>
           </div>
           <button
             onClick={() => signOut({ callbackUrl: '/login' })}
-            className="p-2 rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors"
             aria-label="Sign out"
           >
-            <FiLogOut className="text-base" />
+            <FiLogOut className="text-sm sm:text-base" />
           </button>
         </div>
       </div>

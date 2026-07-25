@@ -52,30 +52,34 @@ export default function PatientsPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6">
       {/* Page header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h1 className="section-title flex items-center gap-2 text-lg sm:text-xl">
-            <FaUserInjured className="text-blue-500" /> Patient Directory
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          <h1 className="section-title flex items-center gap-1.5 text-base sm:text-xl">
+            <FaUserInjured className="text-blue-500 shrink-0" />
+            <span className="hidden sm:inline">Patient Directory</span>
+            <span className="sm:hidden">Patients</span>
           </h1>
-          <p className="section-subtitle mt-0.5 text-xs sm:text-sm">Search by MRN, name, or phone number</p>
+          <p className="section-subtitle mt-0.5 text-[10px] sm:text-sm hidden sm:block">Search by MRN, name, or phone</p>
         </div>
-        <button onClick={() => setShowRegister(true)} className="btn-primary justify-center w-full sm:w-auto text-xs sm:text-sm py-2.5">
-          <FiPlus /> Register New Patient
+        <button onClick={() => setShowRegister(true)} className="btn-primary shrink-0">
+          <FiPlus />
+          <span className="hidden sm:inline">Register New Patient</span>
+          <span className="sm:hidden">Register</span>
         </button>
       </div>
 
       {/* Search bar */}
       <div className="relative">
-        <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base" />
+        <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none z-10" />
         <input
-          className="input pl-10 py-2.5 sm:py-3 text-sm sm:text-base shadow-xs"
-          placeholder="Search by MRN (NC-2026-0001), name, contact..."
+          className="input pl-9 shadow-xs"
+          placeholder="MRN, name, contact..."
           value={q}
           onChange={(e) => setQ(e.target.value)}
           autoFocus
         />
         {loading && (
-          <FiLoader className="absolute right-3.5 top-1/2 -translate-y-1/2 animate-spin text-blue-400" />
+          <FiLoader className="absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-blue-400 text-sm pointer-events-none z-10" />
         )}
       </div>
 

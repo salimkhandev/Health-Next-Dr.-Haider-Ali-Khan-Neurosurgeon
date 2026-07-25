@@ -216,48 +216,56 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6">
       {/* Header */}
       <div>
-        <h1 className="section-title flex items-center gap-2">
-          <FaHospital className="text-blue-600" /> Clinic &amp; Doctor Settings
+        <h1 className="section-title flex items-center gap-1.5 text-base sm:text-lg">
+          <FaHospital className="text-blue-600 shrink-0" />
+          <span className="hidden sm:inline">Clinic &amp; Doctor Settings</span>
+          <span className="sm:hidden">Settings</span>
         </h1>
-        <p className="section-subtitle mt-0.5">
-          Configure Dr. Haider Ali Khan letterhead, Health Next branding, wards, and master list
+        <p className="section-subtitle mt-0.5 text-[10px] sm:text-sm hidden sm:block">
+          Configure letterhead, branding, wards &amp; master list
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="card p-1.5 sm:p-2 flex gap-1.5 sm:gap-2 border-b border-slate-200 overflow-x-auto scrollbar-none">
+      <div className="card p-1 sm:p-1.5 flex gap-1 sm:gap-1.5 border-b border-slate-200 overflow-x-auto scrollbar-none">
         <button
           onClick={() => setActiveTab('profile')}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[11px] sm:text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${
             activeTab === 'profile'
               ? 'bg-blue-600 text-white shadow-xs'
               : 'text-slate-600 hover:bg-slate-100'
           }`}
         >
-          <FaUserMd /> Doctor &amp; Letterhead Profile
+          <FaUserMd />
+          <span className="hidden sm:inline">Doctor &amp; Letterhead</span>
+          <span className="sm:hidden">Profile</span>
         </button>
         <button
           onClick={() => setActiveTab('wards')}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[11px] sm:text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${
             activeTab === 'wards'
               ? 'bg-blue-600 text-white shadow-xs'
               : 'text-slate-600 hover:bg-slate-100'
           }`}
         >
-          <FaProcedures /> Wards &amp; Beds Config
+          <FaProcedures />
+          <span className="hidden sm:inline">Wards &amp; Beds</span>
+          <span className="sm:hidden">Wards</span>
         </button>
         <button
           onClick={() => setActiveTab('master')}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[11px] sm:text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${
             activeTab === 'master'
               ? 'bg-blue-600 text-white shadow-xs'
               : 'text-slate-600 hover:bg-slate-100'
           }`}
         >
-          <FaPills /> Medicine &amp; Test Master List
+          <FaPills />
+          <span className="hidden sm:inline">Medicine &amp; Tests</span>
+          <span className="sm:hidden">Master List</span>
         </button>
       </div>
 

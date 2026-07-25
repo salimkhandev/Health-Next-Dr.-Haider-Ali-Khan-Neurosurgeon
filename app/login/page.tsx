@@ -75,11 +75,11 @@ export default function LoginPage() {
             )}
             <div className="field-group">
               <label className="label" htmlFor="email">Email</label>
-              <div className="relative">
-                <FaUserMd className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" />
+              <div className="relative flex items-center">
+                <FaUserMd className="absolute left-3.5 text-slate-400 text-base pointer-events-none z-10" />
                 <input
                   id="email"
-                  className="input pl-9"
+                  className="input pl-10"
                   type="email"
                   placeholder="doctor@healthnext.com"
                   value={email}
@@ -91,11 +91,11 @@ export default function LoginPage() {
             </div>
             <div className="field-group">
               <label className="label" htmlFor="password">Password</label>
-              <div className="relative">
-                <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" />
+              <div className="relative flex items-center">
+                <FaLock className="absolute left-3.5 text-slate-400 text-base pointer-events-none z-10" />
                 <input
                   id="password"
-                  className="input pl-9"
+                  className="input pl-10"
                   type="password"
                   placeholder="••••••••"
                   value={password}
