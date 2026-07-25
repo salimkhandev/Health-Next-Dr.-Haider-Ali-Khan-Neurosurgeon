@@ -133,9 +133,9 @@ export default function RegisterPatientModal({ onClose, onCreated }: Props) {
               </select>
             </div>
             <div className="sm:col-span-2 field-group">
-              <label className="label">Contact Number *</label>
+              <label className="label">Contact Number (Optional)</label>
               <input className="input" placeholder="e.g. +92 300 1234567" value={form.contact}
-                onChange={(e) => set('contact', e.target.value)} required />
+                onChange={(e) => set('contact', e.target.value)} />
             </div>
             <div className="field-group">
               <label className="label">Blood Group (Optional)</label>

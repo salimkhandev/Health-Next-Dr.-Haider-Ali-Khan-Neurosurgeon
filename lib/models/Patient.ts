@@ -23,7 +23,7 @@ const PatientSchema = new Schema<IPatient>(
     age: { type: Number, required: true },
     dob: { type: Date },
     gender: { type: String, required: true, enum: ['Male', 'Female', 'Other'] },
-    contact: { type: String, required: true, trim: true },
+    contact: { type: String, trim: true, default: '' },
     address: { type: String, default: '' },
     bloodGroup: { type: String, default: '' },
     allergies: { type: [String], default: [] },

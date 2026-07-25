@@ -47,17 +47,19 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { fullName, age, dob, gender, contact, address, bloodGroup, allergies, chronicConditions } = body;
 
-  if (!fullName || !age || !gender || !contact) {
-    return NextResponse.json({ error: 'fullName, age, gender, and contact are required.' }, { status: 400 });
+  if (!fullName || !age || !gender) {
+    return NextResponse.json({ error: 'fullName, age, and gender are required.' }, { status: 400 });
   }
 
-  // Duplicate check by contact
-  const existing = await Patient.findOne({ contact: contact.trim() });
-  if (existing) {
-    return NextResponse.json(
-      { error: 'A patient with this contact number already exists.', existing },
-      { status: 409 }
-    );
+  // Duplicate check by contact (only if contact is provided)
+  if (contact && contact.trim()) {
+    const existing = await Patient.findOne({ contact: contact.trim() });
+    if (existing) {
+      return NextResponse.json(
+        { error: 'A patient with this contact number already exists.', existing },
+        { status: 409 }
+      );
+    }
   }
 
   const mrn = await generateMRN();
@@ -68,7 +70,7 @@ export async function POST(req: NextRequest) {
     age,
     dob: dob ? new Date(dob) : undefined,
     gender,
-    contact: contact.trim(),
+    contact: contact ? contact.trim() : '',
     address: address ?? '',
     bloodGroup: bloodGroup ?? '',
     allergies: allergies ?? [],
