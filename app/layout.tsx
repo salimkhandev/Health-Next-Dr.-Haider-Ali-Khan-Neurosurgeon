@@ -1,38 +1,27 @@
 import type { Metadata } from 'next';
-import { Geist } from 'next/font/google';
 import './globals.css';
-import AuthSessionProvider from '@/components/SessionProvider';
-import ServiceWorker from '@/components/ServiceWorker';
-import PWAInstallButton from '@/components/PWAInstallButton';
-
-const geist = Geist({ subsets: ['latin'], variable: '--font-geist' });
+import Providers from '@/components/Providers';
 
 export const metadata: Metadata = {
-  title: 'Alamdar Online English Academy',
+  title: 'NitroClinic — Health Next',
   description:
-    'Learn English language and communication skills with Alamdar at Alamdar Online English Academy.',
-  manifest: '/manifest',
-};
-
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  themeColor: '#0f172a',
+    'AI-Assisted Patient Management & Ward Management System for Dr. Haider Ali Khan, Neurosurgeon at Health Next.',
+  robots: 'noindex,nofollow', // private clinical system
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} h-full`}>
+    <html lang="en">
       <head>
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="Alamdar Academy" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body className="min-h-full flex flex-col bg-slate-950 text-slate-100 antialiased">
-        <AuthSessionProvider>{children}</AuthSessionProvider>
-        <ServiceWorker />
-        <PWAInstallButton />
+      <body className="antialiased">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
