@@ -35,6 +35,7 @@ export interface IAttachment {
 export interface IVisit extends Document {
   mrn: string;
   visitDate: Date;
+  status: 'draft' | 'complete';
   symptoms: string[];
   aiConversation?: IAiConversationMessage[];
   aiSuggestions?: IAiSuggestions;
@@ -54,6 +55,8 @@ const VisitSchema = new Schema<IVisit>(
   {
     mrn: { type: String, required: true, index: true },
     visitDate: { type: Date, default: Date.now },
+    // 'draft' = initial exam saved (awaiting test results); 'complete' = fully finalized
+    status: { type: String, enum: ['draft', 'complete'], default: 'draft' },
     symptoms: { type: [String], default: [] },
     aiConversation: [
       {

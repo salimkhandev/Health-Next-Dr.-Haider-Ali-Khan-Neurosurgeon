@@ -58,8 +58,11 @@ export async function GET() {
     })
   );
 
-  // 3. Top Diagnoses Breakdown for Chart.js
-  const visits = await Visit.find({ confirmedDiagnosis: { $ne: '' } }, { confirmedDiagnosis: 1 }).lean();
+  // 3. Top Diagnoses Breakdown — only completed visits have a confirmed diagnosis
+  const visits = await Visit.find(
+    { status: 'complete', confirmedDiagnosis: { $ne: '' } },
+    { confirmedDiagnosis: 1 }
+  ).lean();
   const dxCounts: Record<string, number> = {};
   visits.forEach((v) => {
     const dx = v.confirmedDiagnosis.trim();

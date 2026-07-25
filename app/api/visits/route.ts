@@ -5,28 +5,34 @@ import Patient from '@/lib/models/Patient';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-// POST /api/visits — create new visit and increment patient visit count
+// POST /api/visits — create a new visit (draft or complete)
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   await connectDB();
   const body = await req.json();
-  const { mrn, symptoms, confirmedDiagnosis, testsPrescribed, medicinesPrescribed,
-    doctorNotes, vitals, aiConversation, aiSuggestions, nextFollowUpDate } = body;
+  const {
+    mrn, symptoms, confirmedDiagnosis, testsPrescribed, medicinesPrescribed,
+    doctorNotes, vitals, aiConversation, aiSuggestions, nextFollowUpDate,
+    status = 'draft',
+  } = body;
 
   if (!mrn) return NextResponse.json({ error: 'mrn is required' }, { status: 400 });
 
   const patient = await Patient.findOne({ mrn });
   if (!patient) return NextResponse.json({ error: 'Patient not found' }, { status: 404 });
 
-  // Edit window: same calendar day (midnight end of today)
+  // Draft visits stay open indefinitely; complete visits are locked after the creation day
   const now = new Date();
-  const editableUntil = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+  const editableUntil = status === 'complete'
+    ? new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+    : new Date('2099-12-31'); // draft: never expire until completed
 
   const visit = await Visit.create({
     mrn,
     visitDate: now,
+    status,
     symptoms: symptoms ?? [],
     confirmedDiagnosis: confirmedDiagnosis ?? '',
     testsPrescribed: testsPrescribed ?? [],
@@ -39,8 +45,10 @@ export async function POST(req: NextRequest) {
     editableUntil,
   });
 
-  // Increment visit count on patient
-  await Patient.findOneAndUpdate({ mrn }, { $inc: { visitCount: 1 } });
+  // Only count visit on patient record when fully completed
+  if (status === 'complete') {
+    await Patient.findOneAndUpdate({ mrn }, { $inc: { visitCount: 1 } });
+  }
 
   return NextResponse.json({ visit }, { status: 201 });
 }
