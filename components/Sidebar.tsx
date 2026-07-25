@@ -15,7 +15,7 @@ import {
 import { FiX } from 'react-icons/fi';
 
 const navItems = [
-  { name: 'Dashboard', href: '/', icon: FaChartLine },
+  { name: 'Dashboard', href: '/dashboard', icon: FaChartLine },
   { name: 'Patients Directory', href: '/patients', icon: FaUserInjured },
   { name: 'New Consultation', href: '/consultation', icon: FaStethoscope },
   { name: 'Ward Management', href: '/wards', icon: FaProcedures },
@@ -106,8 +106,8 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive =
-                item.href === '/'
-                  ? pathname === '/'
+                item.href === '/dashboard'
+                  ? pathname === '/' || pathname === '/dashboard'
                   : pathname.startsWith(item.href);
 
               return (
